@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Bell Bootstrap Template</title>
+  <title>UMKM Kekar</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -54,7 +54,7 @@
     <div class="container text-center">
       <div class="row">
         <div class="col-md-12">
-          <a class="hero-brand" href="index.html" title="Home"><img alt="Bell Logo" src="<?= base_url('assets/'); ?>/img/logo_2.png"></a>
+          <a class="hero-brand" href="#" title="Home"><img alt="Bell Logo" src="<?= base_url('assets/'); ?>/img/logo_2.png"></a>
         </div>
       </div>
 
@@ -77,7 +77,7 @@
     <div class="container d-flex align-items-center">
 
       <div id="logo" class="me-auto">
-        <a href="index.html"><img src="<?= base_url('assets/'); ?>/img/logo-nav.png" alt=""></a>
+        <a href="#"><img src="<?= base_url('assets/'); ?>/img/logo_2.png" alt="" style="width: 150px;height: 80px;"></a>
         <!-- Uncomment below if you prefer to use a text image -->
         <!--<h1><a href="#hero">Bell</a></h1>-->
       </div>
@@ -85,11 +85,11 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="#features">Features</a></li>
-          <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li>
-          <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+          <li><a class="nav-link scrollto" href="#about">Tentang Kami</a></li>
+          <li><a class="nav-link scrollto" href="#features">Fitur</a></li>
+          <li><a class="nav-link scrollto " href="#portfolio">Portofolio</a></li>
+          <!-- <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
+          <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Drop Down 1</a></li>
               <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
@@ -105,8 +105,8 @@
               <li><a href="#">Drop Down 3</a></li>
               <li><a href="#">Drop Down 4</a></li>
             </ul>
-          </li>
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          </li> -->
+          <li><a class="nav-link scrollto" href="#contact">Kontak</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -134,7 +134,7 @@
         Sistem Informasi UMKM KEKAR merupakan sistem informasi yang mencatat data pelaku UMKM dan mengelola perizinan dapat memberikan manfaat besar dalam mempermudah operasional dan pertumbuhan UMKM. 
         </p>
 
-        <div class="row stats-row">
+        <div class="row stats-row justify-content-center">
           <div class="stats-col text-center col-md-3 col-sm-6">
             <div class="circle">
               <span data-purecounter-start="0" data-purecounter-end="57" data-purecounter-duration="1" class="purecounter stats-no"></span>
@@ -181,7 +181,7 @@
 
       <div class="container">
         <h2 class="text-center">
-          Features
+          Fitur
         </h2>
 
         <div class="row">
@@ -337,28 +337,28 @@
 
       <div class="container text-center">
         <h2>
-          Portfolio
+          Portofolio
         </h2>
 
-        <p>
-          Voluptua scripserit per ad, laudem viderer sit ex. Ex alia corrumpit voluptatibus usu, sed unum convenire id. Ut cum nisl moderatius, Per nihil dicant commodo an.
-        </p>
+        <!-- <p>
+          Berikut portofolio dari UMKM Kalipare
+        </p> -->
       </div>
 
       <div class="portfolio-grid">
         <div class="row">
           <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="card card-block">
-              <a href="<?= base_url('assets/'); ?>/img/porf-1.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-1.jpg">
+              <a href="<?= base_url('assets/'); ?>/img/porf-1.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-1.jpg" style="height: 300px;width :400px">
                 <div class="portfolio-over">
                   <div>
                     <h3 class="card-title">
-                      The Dude Rockin'
+                      Batik
                     </h3>
 
-                    <p class="card-text">
+                    <!-- <p class="card-text">
                       Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
-                    </p>
+                    </p> -->
                   </div>
                 </div>
               </a>
@@ -367,16 +367,16 @@
 
           <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="card card-block">
-              <a href="<?= base_url('assets/'); ?>/img/porf-2.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-2.jpg">
+              <a href="<?= base_url('assets/'); ?>/img/porf-2.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-2.jpg" style="height: 300px;width :400px">
                 <div class="portfolio-over">
                   <div>
                     <h3 class="card-title">
-                      The Dude Rockin'
+                      Ice Cream Moringa
                     </h3>
 
-                    <p class="card-text">
+                    <!-- <p class="card-text">
                       Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
-                    </p>
+                    </p> -->
                   </div>
                 </div>
               </a>
@@ -385,16 +385,16 @@
 
           <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="card card-block">
-              <a href="<?= base_url('assets/'); ?>/img/porf-3.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-3.jpg">
+              <a href="<?= base_url('assets/'); ?>/img/porf-3.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-3.jpg" style="height: 300px;width :400px">
                 <div class="portfolio-over">
                   <div>
                     <h3 class="card-title">
-                      The Dude Rockin'
+                      UMKM Kecamatan Kalipare
                     </h3>
 
-                    <p class="card-text">
+                    <!-- <p class="card-text">
                       Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
-                    </p>
+                    </p> -->
                   </div>
                 </div>
               </a>
@@ -403,15 +403,15 @@
 
           <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="card card-block">
-              <a href="<?= base_url('assets/'); ?>/img/porf-4.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-4.jpg">
+              <a href="<?= base_url('assets/'); ?>/img/porf-4.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-4.jpg" style="height: 300px;width :400px">
                 <div class="portfolio-over">
                   <div>
                     <h3 class="card-title">
-                      The Dude Rockin'
+                      UPPKS Sumber Mulyo
                     </h3>
 
                     <p class="card-text">
-                      Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                      Tiwul Aneka Rasa
                     </p>
                   </div>
                 </div>
@@ -423,15 +423,15 @@
         <div class="row">
           <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="card card-block">
-              <a href="<?= base_url('assets/'); ?>/img/porf-5.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-5.jpg">
+              <a href="<?= base_url('assets/'); ?>/img/porf-5.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-5.jpg" style="height: 300px;width :400px">
                 <div class="portfolio-over">
                   <div>
                     <h3 class="card-title">
-                      The Dude Rockin'
+                      Ice Cream
                     </h3>
 
                     <p class="card-text">
-                      Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                      Susu Kambing
                     </p>
                   </div>
                 </div>
@@ -441,15 +441,15 @@
 
           <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="card card-block">
-              <a href="<?= base_url('assets/'); ?>/img/porf-6.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-6.jpg">
+              <a href="<?= base_url('assets/'); ?>/img/porf-6.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-6.jpg" style="height: 300px;width :400px">
                 <div class="portfolio-over">
                   <div>
                     <h3 class="card-title">
-                      The Dude Rockin'
+                      Zahir
                     </h3>
 
                     <p class="card-text">
-                      Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                      Madu Murni Segar
                     </p>
                   </div>
                 </div>
@@ -459,15 +459,15 @@
 
           <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="card card-block">
-              <a href="<?= base_url('assets/'); ?>/img/porf-7.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-7.jpg">
+              <a href="<?= base_url('assets/'); ?>/img/porf-7.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-7.jpg" style="height: 300px;width :400px">
                 <div class="portfolio-over">
                   <div>
                     <h3 class="card-title">
-                      The Dude Rockin'
+                      Paguyuban UMKM Kalipare
                     </h3>
 
                     <p class="card-text">
-                      Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                      Produk-produk lokal pribumi dari pedesaan untuk semua
                     </p>
                   </div>
                 </div>
@@ -477,15 +477,15 @@
 
           <div class="col-lg-3 col-sm-6 col-xs-12">
             <div class="card card-block">
-              <a href="<?= base_url('assets/'); ?>/img/porf-8.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-8.jpg">
+              <a href="<?= base_url('assets/'); ?>/img/porf-8.jpg" class="portfolio-lightbox" data-gallery="portfolioGallery"><img alt="" src="<?= base_url('assets/'); ?>/img/porf-8.jpg" style="height: 300px;width :400px">
                 <div class="portfolio-over">
                   <div>
                     <h3 class="card-title">
-                      The Dude Rockin'
+                      Sinar Lintang
                     </h3>
 
                     <p class="card-text">
-                      Lorem ipsum dolor sit amet, eu sed suas eruditi honestatis.
+                      Tepung Terigu Singkong - Gluten Free
                     </p>
                   </div>
                 </div>
@@ -497,7 +497,7 @@
     </section><!-- End Portfolio Section -->
 
     <!-- ======= Team Section ======= -->
-    <section class="team" id="team">
+    <!-- <section class="team" id="team">
       <div class="container">
         <h2 class="text-center">
           Meet our team
@@ -601,14 +601,15 @@
           </div>
         </div>
       </div>
-    </section><!-- End Team Section -->
+    </section> -->
+    <!-- End Team Section -->
 
     <!-- ======= Contact Section ======= -->
     <section id="contact">
       <div class="container">
         <div class="row">
           <div class="col-md-12 text-center">
-            <h2 class="section-title">Contact Us</h2>
+            <h2 class="section-title">Kontak Kami</h2>
           </div>
         </div>
 
@@ -672,7 +673,7 @@
 
           <div class="col-lg-6 col-xs-12 text-lg-start text-center">
             <p class="copyright-text">
-              &copy; Copyright <strong>Bell</strong>. All Rights Reserved
+              &copy; Copyright <strong>UMKM</strong>. Kalipare
             </p>
             <div class="credits">
               <!--
@@ -681,34 +682,34 @@
               Licensing information: https://bootstrapmade.com/license/
               Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Bell
             -->
-              Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+              <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
             </div>
           </div>
 
           <div class="col-lg-6 col-xs-12 text-lg-right text-center">
             <ul class="list-inline">
               <li class="list-inline-item">
-                <a href="index.html">Home</a>
+                <a href="#hero">Home</a>
               </li>
 
               <li class="list-inline-item">
-                <a href="#about">About Us</a>
+                <a href="#about">Tentang Kami</a>
               </li>
 
               <li class="list-inline-item">
-                <a href="#features">Features</a>
+                <a href="#features">Fitur</a>
               </li>
 
               <li class="list-inline-item">
-                <a href="#portfolio">Portfolio</a>
+                <a href="#portfolio">Portofolio</a>
               </li>
 
-              <li class="list-inline-item">
+              <!-- <li class="list-inline-item">
                 <a href="#team">Team</a>
-              </li>
+              </li> -->
 
               <li class="list-inline-item">
-                <a href="#contact">Contact</a>
+                <a href="#contact">Kontak</a>
               </li>
             </ul>
           </div>
