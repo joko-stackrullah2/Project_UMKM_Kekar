@@ -10,7 +10,7 @@ function is_logged_in()
         $menu = $ci->uri->segment(1);
 
         $queryMenu = $ci->db->get_where('user_menu', ['menu' => $menu])->row_array();
-        $menu_id = $queryMenu['id'];
+        $menu_id = $queryMenu['menu_id'];
 
         $userAccess = $ci->db->get_where('user_access_menu', [
             'role_id' => $role_id,

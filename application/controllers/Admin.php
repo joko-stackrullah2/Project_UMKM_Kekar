@@ -44,7 +44,7 @@ class Admin extends CI_Controller
         $data['title'] = 'Role Access';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['role'] = $this->db->get_where('user_role', ['id' => $role_id])->row_array();
+        $data['role'] = $this->db->get_where('user_role', ['role_id' => $role_id])->row_array();
 
         $this->db->where('id !=', 1);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -89,6 +89,20 @@ class Admin extends CI_Controller
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('master_umkm/jenis_usaha', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function produk_umkm()
+    {
+        $data['title'] = 'Produk UMKM';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['role'] = $this->db->get('m_produk')->result_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('master_umkm/produk', $data);
         $this->load->view('templates/footer');
     }
 }

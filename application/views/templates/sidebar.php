@@ -16,9 +16,9 @@
             <!-- QUERY MENU -->
             <?php 
             $role_id = $this->session->userdata('role_id');
-            $queryMenu = "SELECT `user_menu`.`id`, `menu`
+            $queryMenu = "SELECT `user_menu`.`menu_id`, `menu`
                             FROM `user_menu` JOIN `user_access_menu`
-                              ON `user_menu`.`id` = `user_access_menu`.`menu_id`
+                              ON `user_menu`.`menu_id` = `user_access_menu`.`menu_id`
                            WHERE `user_access_menu`.`role_id` = $role_id
                         ORDER BY `user_access_menu`.`menu_id` ASC
                         ";
@@ -34,12 +34,13 @@
 
             <!-- SIAPKAN SUB-MENU SESUAI MENU -->
             <?php 
-            $menuId = $m['id'];
+            $menuId = $m['menu_id'];
             $querySubMenu = "SELECT *
                                FROM `user_sub_menu` JOIN `user_menu` 
-                                 ON `user_sub_menu`.`menu_id` = `user_menu`.`id`
+                                 ON `user_sub_menu`.`menu_id` = `user_menu`.`menu_id`
                               WHERE `user_sub_menu`.`menu_id` = $menuId
                                 AND `user_sub_menu`.`is_active` = 1
+                            -- ORDER BY `user_sub_menu`.`no_urut` ASC
                         ";
             $subMenu = $this->db->query($querySubMenu)->result_array();
             ?>

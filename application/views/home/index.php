@@ -66,7 +66,7 @@
         <p class="tagline">
         Sistem Informasi UMKM KEKAR (Usaha Mikro, Kecil, dan Menengah Kecamatan Kalipare)
         </p>
-        <a class="btn btn-full scrollto" href="<?= base_url('auth'); ?>">Daftar Sekarang</a>
+        <a class="btn btn-full scrollto" href="<?= base_url('auth/registration'); ?>">Daftar Sekarang</a>
       </div>
     </div>
 
@@ -107,6 +107,8 @@
             </ul>
           </li> -->
           <li><a class="nav-link scrollto" href="#contact">Kontak</a></li>
+          <li><a class="nav-link scrollto" href="<?= base_url('auth'); ?>">Login</a></li>
+          <li><a class="nav-link scrollto" href="<?= base_url('auth/registration'); ?>">Daftar</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
