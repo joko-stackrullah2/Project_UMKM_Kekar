@@ -620,17 +620,18 @@
             <div class="info">
               <div>
                 <i class="bi bi-geo-alt"></i>
-                <p>A108 Adam Street<br>New York, NY 535022</p>
+                <!-- <p>A108 Adam Street<br>New York, NY 535022</p> -->
+                <p>Kecamatan Kalipare</p>
               </div>
 
               <div>
                 <i class="bi bi-envelope"></i>
-                <p>info@example.com</p>
+                <p>UMKMKekar@gmail.com</p>
               </div>
 
               <div>
                 <i class="bi bi-phone"></i>
-                <p>+1 5589 55488 55s</p>
+                <p>+6208888888888</p>
               </div>
 
             </div>

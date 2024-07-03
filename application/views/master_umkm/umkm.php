@@ -10,17 +10,16 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newRoleModal">Tambah Produk</a>
+            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newRoleModal">Tambah Data UMKM</a>
 
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Milik dari UMKM</th>
-                        <th scope="col">Nama Produk</th>
-                        <th scope="col">Deskripsi Produk</th>
-                        <th scope="col">Harga Produk</th>
-                        <th scope="col">Stok Produk</th>
+                        <th width="5%" scope="col">#</th>
+                        <th width="20%" scope="col">Nama UMKM</th>
+                        <th width="35%" scope="col">Alamat UMKM</th>
+                        <th width="20%" scope="col">No Telepon UMKM</th>
+                        <th width="20%" scope="col">Email UMKM</th>
                         <!-- <th scope="col">Action</th> -->
                     </tr>
                 </thead>
@@ -29,16 +28,15 @@
                     <?php foreach ($role as $r) : ?>
                     <tr>
                         <th scope="row"><?= $i; ?></th>
-                        <td>Royal Ice Milk</td>
-                        <td><?= $r['nama_produk']; ?></td>
-                        <td><?= $r['deskripsi_produk']; ?></td>
-                        <td><?= $r['harga_produk']; ?></td>
-                        <td><?= $r['stok_produk']; ?></td>
+                        <td><?= $r['nama_umkm']; ?></td>
+                        <td><?= $r['alamat_umkm']; ?></td>
+                        <td><?= $r['telepon_umkm']; ?></td>
+                        <td><?= $r['email_umkm']; ?></td>
                         <!-- <td>
                             <a href="<?= base_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a>
                             <a href="" class="badge badge-success">edit</a>
                             <a href="" class="badge badge-danger">delete</a>
-                        </td> -->   
+                        </td> -->
                     </tr>
                     <?php $i++; ?>
                     <?php endforeach; ?>

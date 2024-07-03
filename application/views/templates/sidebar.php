@@ -6,7 +6,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-code"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">MENUNYA NICH</div>
+                <div class="sidebar-brand-text mx-3">Sistem Perizinan UMKM</div>
             </a>
 
             <!-- Divider -->
@@ -40,7 +40,7 @@
                                  ON `user_sub_menu`.`menu_id` = `user_menu`.`menu_id`
                               WHERE `user_sub_menu`.`menu_id` = $menuId
                                 AND `user_sub_menu`.`is_active` = 1
-                            -- ORDER BY `user_sub_menu`.`no_urut` ASC
+                            ORDER BY `user_sub_menu`.`no_urut` ASC
                         ";
             $subMenu = $this->db->query($querySubMenu)->result_array();
             ?>

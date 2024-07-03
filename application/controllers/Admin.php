@@ -105,4 +105,32 @@ class Admin extends CI_Controller
         $this->load->view('master_umkm/produk', $data);
         $this->load->view('templates/footer');
     }
+
+    public function umkm()
+    {
+        $data['title'] = 'Data UMKM';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['role'] = $this->db->get('m_umkm')->result_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('master_umkm/umkm', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function perizinan_umkm()
+    {
+        $data['title'] = 'Perizinan UMKM';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['role'] = $this->db->get('m_umkm')->result_array();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('master_umkm/perizinan_umkm', $data);
+        $this->load->view('templates/footer');
+    }
 }

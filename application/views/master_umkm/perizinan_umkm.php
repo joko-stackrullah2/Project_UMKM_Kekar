@@ -10,17 +10,16 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newRoleModal">Tambah Produk</a>
+            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#infoModal">Ajukan Perizinan UMKM</a>
 
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Milik dari UMKM</th>
-                        <th scope="col">Nama Produk</th>
-                        <th scope="col">Deskripsi Produk</th>
-                        <th scope="col">Harga Produk</th>
-                        <th scope="col">Stok Produk</th>
+                        <th width="5%" scope="col">#</th>
+                        <th width="20%" scope="col">Nama UMKM</th>
+                        <th width="35%" scope="col">Alamat UMKM</th>
+                        <th width="20%" scope="col">No Telepon UMKM</th>
+                        <th width="20%" scope="col">Email UMKM</th>
                         <!-- <th scope="col">Action</th> -->
                     </tr>
                 </thead>
@@ -29,16 +28,15 @@
                     <?php foreach ($role as $r) : ?>
                     <tr>
                         <th scope="row"><?= $i; ?></th>
-                        <td>Royal Ice Milk</td>
-                        <td><?= $r['nama_produk']; ?></td>
-                        <td><?= $r['deskripsi_produk']; ?></td>
-                        <td><?= $r['harga_produk']; ?></td>
-                        <td><?= $r['stok_produk']; ?></td>
+                        <td><?= $r['nama_umkm']; ?></td>
+                        <td><?= $r['alamat_umkm']; ?></td>
+                        <td><?= $r['telepon_umkm']; ?></td>
+                        <td><?= $r['email_umkm']; ?></td>
                         <!-- <td>
                             <a href="<?= base_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a>
                             <a href="" class="badge badge-success">edit</a>
                             <a href="" class="badge badge-danger">delete</a>
-                        </td> -->   
+                        </td> -->
                     </tr>
                     <?php $i++; ?>
                     <?php endforeach; ?>
@@ -107,3 +105,70 @@
         </div>
     </div>
 </div> 
+
+
+
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Informasi Perizinan Dasar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Perizinan dasar yang harus dimiliki pelaku usaha berdasarkan usahanya:</p>
+        <ul>
+          <li>Semua Produk baik makanan, Minuman Batik, Kriya Wajib SNI. syarat :</li>
+          <li>Semua Produk Makanan Wajib Halal.</li>
+          <li>Semua bidang usaha wajib punya perizinan dasar yaitu NIB pengurusan NIB wajib mencantumkan :</li>
+          <ul>
+            <li>Mempunyai HP Android</li>
+            <li>Email, password</li>
+            <li>Nama Usaha</li>
+            <li>Bidang Usaha</li>
+          </ul>
+        </ul>
+        <p>Pengurusan memiliki aplikasi OSS atau bisa datang ke MPP kalau belum paham dengan aplikasi atau bisa datang ke Gedung PLUT - KUMKM nanti akan dipandu dan dibimbing langsung oleh petugas Pendamping kami Dinas Koperasi dan Usaha Mikro.</p>
+        
+        <p>Wajib Merk untuk semua bidang Usaha :</p>
+        <ul>
+          <li>Pyur Mandiri berbayar 1,8 Juta. 
+            <a href="https://ntb.kemenkumham.go.id/berita-kanwil/berita-utama/5767-apa-itu-merek-dan-dimana-daftar-merek-simak-penjelasannya-di-sini#:~:text=Masyarakat%20bisa%20mendaftarkan%20Merek%20yang,online%20melalui%20https%3A%2F%2Fmerek.">Link</a>
+          </li>
+          <li>Rekom Dinkop berbayar 500 Ribu</li>
+        </ul>
+        
+        <p>Persyaratannya :</p>
+        <ul>
+          <li>Punya NIB</li>
+          <li>Nama Usaha</li>
+          <li>Nama Pemilik</li>
+          <li>Logo Produk</li>
+          <li>KK KTP, dll.</li>
+        </ul>
+        
+        <p>Untuk Makanan dan Serbuk yang tahan lebih dari 7 Hari Wajib P-IRT...</p>
+        <p>Tahapan pengajuan perizinan PIRT sebagai berikut:</p>
+        <ul>
+          <li>Membuat akun OSS di oss.go.id.</li>
+          <li>Mengisi kelengkapan data pelaku usaha dan data produk pangan.</li>
+          <li>Jika memenuhi persyaratan, SPP-IRT akan otomatis diterbitkan melalui OSS.</li>
+          <li>Melakukan pemenuhan komitmen dalam jangka waktu yang ditentukan.</li>
+        </ul>
+        
+        <p>Minuman, Frozzen, atau yang berbentuk Cair wajib BPOM</p>
+        <p>Syarat BPOM :</p>
+        <p>Cara Daftar BPOM</p>
+        <ul>
+          <li>Registrasi online situs resmi BPOM <a href="https://e-reg.pom.go.id/">Link</a></li>
+          <li>Mengisi formulir tentang data perusahaan, mengunggah dokumen-dokumen perusahaan dan dokumen pendukung.</li>
+          <li>Menunggu email verifikasi yang berisi user ID dan password.</li>
+          <li>Input data dan unggah dokumen persyaratan.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

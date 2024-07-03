@@ -34,7 +34,8 @@
                         <td>
                             <!-- <a href="<?= base_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a> -->
                             <a href="" class="badge badge-success" data-toggle="modal" data-target="#modalEdit_<?= $r['id']; ?>">edit</a>
-                            <a href="" class="badge badge-success" data-toggle="modal" data-target="#modalUMKM_<?= $r['id']; ?>">data UMKM</a>
+                            <a href="<?= base_url('admin/umkm'); ?>" class="badge badge-success" >data UMKM</a>
+                            <a href="" class="badge badge-warning" data-toggle="modal" data-target="#memberCardModal">Cetak Kartu Anggota</a>
                             <a href="" class="badge badge-danger">delete</a>
                         </td>
                     </tr>
@@ -124,7 +125,7 @@
 <!-- Modal -->
 
 <!-- Modal -->
-<!-- <div class="modal fade" id="newRoleModal" tabindex="-1" role="dialog" aria-labelledby="newRoleModalLabel" aria-hidden="true">
+<div class="modal fade" id="newRoleModal" tabindex="-1" role="dialog" aria-labelledby="newRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -138,6 +139,15 @@
                     <div class="form-group">
                         <input type="text" class="form-control" id="role" name="role" placeholder="Nama Lengkap">
                     </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="No Telepon">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -146,7 +156,40 @@
             </form>
         </div>
     </div>
-</div> -->
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="memberCardModal" tabindex="-1" aria-labelledby="memberCardModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="memberCardModalLabel">Kartu Anggota UMKM</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+            <div class="card-header">
+                <h5>Kartu Anggota UMKM</h5>
+            </div>
+            <div class="card-body">
+                <img src="https://via.placeholder.com/100" alt="Foto Anggota">
+                <h5 class="card-title mt-3">Nama Anggota</h5>
+                <p class="card-text">Nama Usaha: <strong>Nama Usaha UMKM</strong></p>
+                <p class="card-text">Bidang Usaha: <strong>Bidang Usaha</strong></p>
+                <p class="card-text">Alamat: <strong>Alamat Lengkap</strong></p>
+                <p class="card-text">No. Telepon: <strong>Nomor Telepon</strong></p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Dinas Koperasi dan Usaha Mikro</small>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
     function readvalues(tableRow){
