@@ -27,11 +27,9 @@
                         <th scope="row"><?= $i; ?></th>
                         <td><?= $r['role']; ?></td>
                         <td>
-                            <a href="<?= base_url('admin/roleaccess/') . $r['role_id']; ?>" class="badge badge-warning">access</a>
+                            <a href="<?= base_url('admin/view_hak_akses_role_centang/') . $r['role_id']; ?>" class="badge badge-warning">access</a>
                             <a href="" class="badge badge-success" data-toggle="modal" data-target="#modal-hak_akses_edit<?= $r['role_id']; ?>">edit</a>
-                            <form action="<?php echo base_url('admin/deleterole'); ?>" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-hak_akses_delete<?= $r['role_id']; ?>">Delete</a>
                         </td>
                     </tr>
 
@@ -56,13 +54,34 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="newOrEditHakAkses('edit')">Edit</button>
+                                        <button type="button" class="btn btn-primary" onclick="newOrEditHakAkses('edit',<?= $r['role_id']; ?>)">Edit</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div> 
-                    <input type="hidden" id="role_id" name="role_id" value="<?= $r['role_id']; ?>">
+
+                        <!-- Delete Confirmation Modal -->
+                    <div class="modal fade" id="modal-hak_akses_delete<?= $r['role_id']; ?>" tabindex="-1" aria-labelledby="modal-hak_akses_delete" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modal-hak_akses_delete">Konfirmasi Hapus Data</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Apakah anda yakin untuk menghapus role ini ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-danger" id="deleteBtn" onclick="deleteHakAkses(<?= $r['role_id']; ?>)">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <?php $i++; ?>
                     <?php endforeach; ?>
                 </tbody>
@@ -116,10 +135,8 @@
 </div>
 
 <script>
-    function newOrEditHakAkses(tipe){
+    function newOrEditHakAkses(tipe,role_id=""){
         var hak_akses=''
-        var role_id = $('#role_id').val();
-        
         if(tipe === 'new'){
             hak_akses = $('#hak_akses').val();
         }else{
@@ -157,5 +174,30 @@
                 }
             });
         }
+    }
+
+    function deleteHakAkses(role_id){
+        console.log(role_id)
+        $('#loading').show();
+        $.ajax({
+                url: '<?php echo base_url(); ?>admin/deleteHakAkses',
+                method: 'POST',
+                data: { role_id: role_id },
+                success: function(response) {
+                    var result = JSON.parse(response);
+                    console.log(result)
+                    if(result.error) {
+                        $('#loading').hide();
+                        $('#message').html('<div class="alert alert-danger">' + result.error + '</div>');
+                    } else {
+                        $('#loading').hide();
+                        $('#message').html('<div class="alert alert-success">' + result.success + '</div>');
+                        window.location.reload();  // Refresh the page
+                    }
+                },
+                error: function() {
+                    alert('Terjadi kesalahan, hubungi tim IT.');
+                }
+            });
     }
 </script>

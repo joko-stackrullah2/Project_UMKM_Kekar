@@ -108,8 +108,8 @@ class Auth extends CI_Controller
                 'email' => htmlspecialchars($email),
                 'image' => 'default.jpg',
                 'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                'role_id' => 2,
-                'is_active' => 1,
+                'role_id' => htmlspecialchars($this->input->post('role', true)),
+                'is_active' => 0,
                 'date_created' => time()
             ];
 

@@ -17,4 +17,8 @@ class Hak_akses_m extends CI_Model
         $this->db->where("role_id",$role_id);
         return $this->db->update('user_role', $data);
     }
+
+    public function deleteHakAkses($data) {
+        return $this->db->delete('user_role', $data);
+    }
 }

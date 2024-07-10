@@ -9,14 +9,18 @@ class Admin extends CI_Controller
         is_logged_in();
         $this->load->model('Perizinan_umkm_m', 'perizinan_umkm_m');
         $this->load->model('Hak_akses_m', 'hak_akses_m');
+        $this->load->model('Auth_m','auth_m');
+        $this->load->model('Pelaku_umkm_m','pelaku_umkm_m');
     }
+
+    //PELAKU UMKM
 
     public function index()
     {
         $data['title'] = 'Pelaku UMKM';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $data['pelaku'] = $this->db->get('user')->result_array();
+        $data['list_hak_akses'] = $this->hak_akses_m->getAllListHakAkses();
+        $data['pelaku'] = $this->pelaku_umkm_m->getAllPelakuUMKM();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -25,91 +29,89 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function tambah_pelaku_umkm()
+    public function newPelakuUMKM()
     {
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
-        $this->form_validation->set_rules('no_telepon', 'No Telepon', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
-            'is_unique' => 'This email has already registered!'
-        ]);
-        $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
-            'matches' => 'Password dont match!',
-            'min_length' => 'Password too short!'
-        ]);
-        $this->form_validation->set_rules('password2', 'Password', 'required|trim|matches[password1]');
+        $email = $this->input->post('email', true);
 
-        if ($this->form_validation->run() == false) {
-            $this->index();
-        } else {
-            $email = $this->input->post('email', true);
-            $data = [
-                'name' => htmlspecialchars($this->input->post('name', true)),
-                'alamat' => htmlspecialchars($this->input->post('alamat', true)),
-                'no_telepon' => htmlspecialchars($this->input->post('no_telepon', true)),
-                'email' => htmlspecialchars($email),
-                'image' => 'default.jpg',
-                'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-                'role_id' => 2,
-                'is_active' => 1,
-                'date_created' => time()
-            ];
-
-            // siapkan token
-            $token = base64_encode(random_bytes(32));
-            $user_token = [
-                'email' => $email,
-                'token' => $token,
-                'date_created' => time()
-            ];
-
-            $this->db->insert('user', $data);
-            $this->db->insert('user_token', $user_token);
-
-            $this->_sendEmail($token, 'verify');
-
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Congratulation! your account has been created.</div>');
-            redirect('admin');
-        }
-    }
-
-
-    private function _sendEmail($token, $type)
-    {
-        $config = [
-            'protocol'  => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_user' => 'gezayu@gmail.com',
-            'smtp_pass' => 'uorqnfvjokewxszz',
-            'smtp_port' => 465,
-            'mailtype'  => 'html',
-            'charset'   => 'utf-8',
-            'newline'   => "\r\n",
+        $data = [
+            'nama' => htmlspecialchars($this->input->post('nama', true)),
+            'alamat' => htmlspecialchars($this->input->post('alamat', true)),
+            'no_telepon' => htmlspecialchars($this->input->post('no_telepon', true)),
+            'email' => htmlspecialchars($email),
+            'image' => 'default.jpg',
+            'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
+            'role_id' =>  htmlspecialchars($this->input->post('role', true)),
+            'is_active' => 1,
+            'date_created' => time()
         ];
 
-        $this->email->initialize($config);
+        $token = base64_encode(random_bytes(32));
+        $user_token = [
+            'email' => $email,
+            'token' => $token,
+            'date_created' => time()
+        ];
 
-        $this->email->from('gezayu@gmail', 'Geza Fiqrullah');
-        $this->email->to($this->input->post('email'));
-
-        if ($type == 'verify') {
-            $this->email->subject('Account Verification');
-            $this->email->message('Click this link to verify you account : <a href="' . base_url() . 'auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Activate</a>');
-        } else if ($type == 'forgot') {
-            $this->email->subject('Reset Password');
-            $this->email->message('Click this link to reset your password : <a href="' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Reset Password</a>');
+        if ($this->pelaku_umkm_m->is_email_registered($email)) {
+            echo json_encode(array('error' => 'Email ini telah digunakan !'));
+            return;
         }
 
-        if ($this->email->send()) {
-            return true;
+        $insert = $this->pelaku_umkm_m->newPelakuUMKM($data,$user_token);
+        if ($insert) {
+            echo json_encode(array('success' => 'Tambah Pelaku UMKM Berhasil.'));
         } else {
-            echo $this->email->print_debugger();
-            die;
+            echo json_encode(array('error' => 'Edit Pelaku UMKM Gagal.'));
+        }
+    }
+
+    public function editPelakuUMKM()
+    {
+        $email = $this->input->post('email', true);
+        $pelaku_id = htmlspecialchars($this->input->post('pelaku_id', true));
+
+        $data = [
+            'nama' => htmlspecialchars($this->input->post('nama', true)),
+            'alamat' => htmlspecialchars($this->input->post('alamat', true)),
+            'no_telepon' => htmlspecialchars($this->input->post('no_telepon', true)),
+            'email' => htmlspecialchars($email),
+            'role_id' =>  htmlspecialchars($this->input->post('role', true)),
+            'is_active' => 1,
+            'date_created' => time()
+        ];
+
+        $edit = $this->pelaku_umkm_m->editPelakuUMKM($data,$pelaku_id);
+        if ($edit) {
+            echo json_encode(array('success' => 'Edit pelaku UMKM Berhasil.'));
+        } else {
+            echo json_encode(array('error' => 'Edit pelaku UMKM Gagal.'));
+        }
+    }
+
+    public function deletePelakuUMKM()
+    {
+        $data = ['id' => htmlspecialchars($this->input->post('id', true))];
+        $delete = $this->pelaku_umkm_m->deletePelakuUMKM($data);
+        if ($delete) {
+            echo json_encode(array('success' => 'Berhasil menghapus Pelaku UMKM.'));
+        } else {
+            echo json_encode(array('error' => 'Gagal menghapus Pelaku UMKM.'));
         }
     }
 
 
-    public function role()
+
+
+
+
+
+
+
+
+
+    //HAK AKSES
+
+    public function view_hak_akses_role()
     {
         $data['title'] = 'Hak Akses';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
@@ -118,7 +120,7 @@ class Admin extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('admin/role', $data);
+        $this->load->view('admin/view_hak_akses_role', $data);
         $this->load->view('templates/footer');
     }
 
@@ -144,15 +146,19 @@ class Admin extends CI_Controller
         }
     }
 
-    public function deleterole()
+    public function deleteHakAkses()
     {
         $data = ['role_id' => htmlspecialchars($this->input->post('role_id', true))];
-        $this->db->delete('user_role', $data);
-        $this->role();
+        $delete = $this->hak_akses_m->deleteHakAkses($data);
+        if ($delete) {
+            echo json_encode(array('success' => 'Berhasil menghapus role hak akses.'));
+        } else {
+            echo json_encode(array('error' => 'Gagal menghapus role hak akses.'));
+        }
     }
 
 
-    public function roleAccess($role_id)
+    public function view_hak_akses_role_centang($role_id)
     {
         $data['title'] = 'Role Access';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
@@ -165,7 +171,7 @@ class Admin extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('admin/role-access', $data);
+        $this->load->view('admin/view_hak_akses_role_centang', $data);
         $this->load->view('templates/footer');
     }
 
