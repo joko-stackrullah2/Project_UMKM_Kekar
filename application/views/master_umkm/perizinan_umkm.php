@@ -10,33 +10,36 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#infoModal">Ajukan Perizinan UMKM</a>
+            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-tambah_umkm">Tambah Data UMKM</a>
 
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th width="5%" scope="col">#</th>
+                        <th width="20%" scope="col">Pelaku UMKM</th>
                         <th width="20%" scope="col">Nama UMKM</th>
                         <th width="35%" scope="col">Alamat UMKM</th>
                         <th width="20%" scope="col">No Telepon UMKM</th>
                         <th width="20%" scope="col">Email UMKM</th>
-                        <!-- <th scope="col">Action</th> -->
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
-                    <?php foreach ($role as $r) : ?>
+                    <?php foreach ($data_umkm as $r) : ?>
                     <tr>
                         <th scope="row"><?= $i; ?></th>
+                        <td><?= $r['nama_pelaku_umkm']; ?></td>
                         <td><?= $r['nama_umkm']; ?></td>
                         <td><?= $r['alamat_umkm']; ?></td>
                         <td><?= $r['telepon_umkm']; ?></td>
                         <td><?= $r['email_umkm']; ?></td>
-                        <!-- <td>
-                            <a href="<?= base_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a>
-                            <a href="" class="badge badge-success">edit</a>
-                            <a href="" class="badge badge-danger">delete</a>
-                        </td> -->
+                        <td>
+                            <!-- <a href="<?= base_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a> -->
+                            <a href="" class="badge badge-success">Edit</a>
+                            <a href="" class="badge badge-warning" data-toggle="modal" data-target="#infoModal">Ajukan Perizinan</a>
+                            <a href="" class="badge badge-danger">Hapus UMKM</a>
+                        </td>
                     </tr>
                     <?php $i++; ?>
                     <?php endforeach; ?>
@@ -172,3 +175,51 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modal-tambah_umkm" tabindex="-1" role="dialog" aria-labelledby="modal-tambah_umkm" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-tambah_umkm">Tambah Data Produk</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-group">
+                        
+                        <!-- <label for="wali">Wali Murid</label>
+                        <select name="wali" id="wali" class="form-control">
+                            <option selected="selected">
+                            -- Pilih Wali Murid --
+                            </option>
+                                                        <option selected="selected">
+                            -- Pilih Wali Murid --
+                            </option>
+                            <?php
+                            foreach($list as $key => $data) { 
+                                $select = (isset($data_pendaftar) && $data_pendaftar['wali_murid_id'] == $data_wali[$key]['wali_murid_id'] )?"selected = 'selected'":"";?>
+                                <option value="<?php echo $data_wali[$key]['wali_murid_id']; ?>"  <?php echo $select; ?>><?php echo $data_wali[$key]['nama']; ?></option>
+                            <?php } ?>
+                        </select> -->
+                        <p>Pilih Pelaku UMKM<p>
+                        <input type="text" class="form-control" id="role" name="role" placeholder="-">
+                        <p>Nama UMKM<p>
+                        <input type="text" class="form-control" id="role" name="role" placeholder="Nama UMKM">
+                        <p>Alamat UMKM<p>
+                        <input type="text" class="form-control" id="role" name="role" placeholder="Alamat UMKM">
+                        <p>Email UMKM<p>
+                        <input type="text" class="form-control" id="role" name="role" placeholder="Email UMKM">
+                        <p>No.Telepon UMKM<p>
+                        <input type="text" class="form-control" id="role" name="role" placeholder="No.Telepon UMKM">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 

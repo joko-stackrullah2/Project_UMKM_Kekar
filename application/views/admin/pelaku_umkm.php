@@ -134,19 +134,27 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('admin/role'); ?>" method="post">
+            <?= $this->session->flashdata('message'); ?>
+            <form action="<?= base_url('admin/tambah_pelaku_umkm'); ?>" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" id="role" name="role" placeholder="Nama Lengkap">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="Email">
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="No Telepon">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+                        <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control form-control-user" id="password1" name="password1" placeholder="Password">
+                        <?= form_error('password1', '<small class="text-danger pl-3">', '</small>'); ?>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control form-control-user" id="password2" name="password2" placeholder="Ulangi Password">
                     </div>
                 </div>
                 <div class="modal-footer">

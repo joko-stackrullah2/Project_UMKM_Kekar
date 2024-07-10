@@ -20,7 +20,7 @@
                         <th width="35%" scope="col">Alamat UMKM</th>
                         <th width="20%" scope="col">No Telepon UMKM</th>
                         <th width="20%" scope="col">Email UMKM</th>
-                        <!-- <th scope="col">Action</th> -->
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,11 +32,12 @@
                         <td><?= $r['alamat_umkm']; ?></td>
                         <td><?= $r['telepon_umkm']; ?></td>
                         <td><?= $r['email_umkm']; ?></td>
-                        <!-- <td>
-                            <a href="<?= base_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a>
-                            <a href="" class="badge badge-success">edit</a>
-                            <a href="" class="badge badge-danger">delete</a>
-                        </td> -->
+                        <td>
+                            <!-- <a href="<?= base_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a> -->
+                            <a href="" class="badge badge-success">Edit</a>
+                            <a href="" class="badge badge-warning">Ajukan Perizinan</a>
+                            <a href="" class="badge badge-danger">Hapus</a>
+                        </td>
                     </tr>
                     <?php $i++; ?>
                     <?php endforeach; ?>
