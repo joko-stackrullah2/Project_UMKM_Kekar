@@ -569,6 +569,24 @@
         const foto_kk = formData.get('foto_kk')
         let errorMessage = '';
 
+        var form = document.getElementById('form-umkm_perizinan'+id_umkm);
+        var inputs = form.querySelectorAll('input, select');
+        var formData2 = new FormData();
+        var isValid = true;
+
+        inputs.forEach(function(input) {
+            if (input.type === 'file') {
+                console.log(input.files.length)
+                if (input.files.length === 0) {
+                    alert('Please select a file for ' + input.name);
+                    isValid = false;
+                    return false;
+                } else {
+                    formData2.append(input.name, input.files[0]);
+                }
+            }
+        })
+
         // if (foto_nib == "" || foto_nib == null || foto_nib == "null" ) {
         //     errorMessage += '<p>Wajib Upload Foto NIB.</p>';
         // }
@@ -578,21 +596,12 @@
         // if (foto_kk.name == "") {
         //     errorMessage += '<p>Wajib Upload Foto KK.</p>';
         // }
-        formData.id_umkm = id_umkm
-        if (errorMessage != '') {
-            $('#message_perizinan'+id_umkm).html('<div class="alert alert-danger">' + errorMessage + '</div>');
-        } 
-        else {
-            // const data ={
-            //     id_umkm : id_umkm,
-            //     foto_nib : foto_nib,
-            //     foto_ktp : foto_ktp,
-            //     foto_kk : foto_kk,
-            //     is_oss : is_oss,
-            //     is_bpom : is_bpom,
-            //     is_verifikasi : is_verifikasi
-            // }
-            // console.log(data)
+
+
+
+        if (!isValid) {
+            return;
+        }else {
             $('#loading').show();
             $.ajax({
                 url: '<?php echo base_url(); ?>admin/editPerizinanUMKM/'+id_umkm,

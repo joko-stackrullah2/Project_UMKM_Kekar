@@ -442,6 +442,11 @@ class Admin extends CI_Controller
             }
         }
 
+        if (empty($uploaded_files) || count($uploaded_files) < 3) {
+            echo json_encode(['error' => 'No files were selected for upload']);
+            return;
+        }
+
         $data = [
             'is_oss' => $is_oss,
             'is_bpom' => $is_bpom,
