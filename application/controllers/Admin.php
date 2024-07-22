@@ -359,61 +359,6 @@ class Admin extends CI_Controller
         $is_verifikasi = htmlspecialchars($this->input->post('is_verifikasi', true));
         $tanggal_pengajuan_izin = date("Y-m-d H:i:s");
 
-
-        // $foto_nib = $_FILES['foto_nib']['name'];
-        // $foto_ktp = $_FILES['foto_ktp']['name'];
-        // $foto_kk = $_FILES['foto_kk']['name'];
-        // $file_path_nib = '';
-        // $file_path_ktp = '';
-        // $file_path_kk = '';
-
-        // if ($foto_nib) {
-        //     $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        //     $config['max_size']      = '2048';
-        //     $config['upload_path'] = './assets/img/perizinan/';
-    
-        //     $this->load->library('upload', $config);
-        //     if ($this->upload->do_upload('foto_nib')) {
-        //         $old_image = $cek_old_image['foto_nib'];
-        //         if ($old_image != null) {
-        //             unlink(FCPATH . 'assets/img/perizinan/' . $old_image);
-        //         }
-        //         $file_path_nib = $this->upload->data('file_name');
-        //     } 
-        // }
-
-        // if ($foto_ktp) {
-        //     $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        //     $config['max_size']      = '2048';
-        //     $config['upload_path'] = './assets/img/perizinan/';
-    
-        //     $this->load->library('upload', $config);
-        //     if ($this->upload->do_upload('image')) {
-        //         $old_image = $cek_old_image['foto_ktp'];
-        //         if ($old_image != null) {
-        //             unlink(FCPATH . 'assets/img/perizinan/' . $old_image);
-        //         }
-        //         $file_path_ktp = $this->upload->data('file_name');
-        //     } 
-        // }
-
-        // if ($foto_kk) {
-        //     $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        //     $config['max_size']      = '2048';
-        //     $config['upload_path'] = './assets/img/perizinan/';
-    
-        //     $this->load->library('upload', $config);
-        //     if ($this->upload->do_upload('image')) {
-        //         $$old_image = $cek_old_image['foto_kk'];
-        //         if ($old_image != null) {
-        //             unlink(FCPATH . 'assets/img/perizinan/' . $old_image);
-        //         }
-        //         $file_path_kk = $this->upload->data('file_name');
-        //     } else {
-        //         echo $this->upload->dispay_errors();
-        //     }
-        // }
-
         $config['upload_path'] = './assets/img/perizinan/';
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['max_size'] = 2000; // Set your size limit (in KB)
