@@ -75,9 +75,7 @@
                         <td><?= $r['no_telepon']; ?></td>
                         <td><?= $r['role']; ?></td>
                         <td>
-                            <!-- <a href="<?= base_url('admin/roleaccess/') . $r['id']; ?>" class="badge badge-warning">access</a> -->
                             <a href="" class="badge badge-success" data-toggle="modal" data-target="#modal-pelaku_umkm_edit_<?= $r['id']; ?>">edit</a>
-                            <!-- <a href="<?= base_url('admin/umkm'); ?>" class="badge badge-success" >data UMKM</a> -->
                             <button class="badge badge-warning" type="button" onclick="showIdentityCard('<?php echo htmlspecialchars(json_encode($r), ENT_QUOTES, 'UTF-8'); ?>')">Cetak Kartu Anggota</button>
                             <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-pelaku_umkm_delete<?= $r['id']; ?>">Delete</a>
                         </td>
@@ -127,42 +125,7 @@
                         </div>
                     </div>
 
-                    <!-- <div class="modal fade" id="modalUMKM_<?= $r['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="newRoleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="newRoleModalLabel">Edit Data UMKM</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form action="<?= base_url('admin/role'); ?>" method="post">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <p>Nama UMKM</p>
-                                            <input type="text" class="form-control" id="nama<?= $r['id']; ?>" name="name" value="<?= $r['name']; ?>" placeholder="Nama" style="margin-bottom:10px ;">
-                                            <p>Alamat UMKM</p>
-                                            <input type="text" class="form-control" id="alamat<?= $r['id']; ?>" name="alamat" value="<?= $r['alamat']; ?>" placeholder="Alamat" style="margin-bottom:10px ;">
-                                            <p>No.Telepon UMKM</p>
-                                            <input type="text" class="form-control" id="no_telepon<?= $r['id']; ?>" name="no_telepon" value="<?= $r['no_telepon']; ?>" placeholder="No.Telepon" style="margin-bottom:10px ;">
-                                            <p>Email UMKM</p>
-                                            <input type="text" class="form-control" id="email<?= $r['id']; ?>" name="email" value="<?= $r['email']; ?>" placeholder="Email" style="margin-bottom:10px ;">
-                                            <p>Tanggal Pendirian</p>
-                                            <input type="text" class="form-control" id="tanggal_pendirian<?= $r['id']; ?>" name="tanggal_pendirian"  placeholder="Tanggal Pendirian" style="margin-bottom:10px ;">
-                                            <p>Jenis Usaha</p>
-                                            <input type="text" class="form-control" id="tanggal_pendirian<?= $r['id']; ?>" name="tanggal_pendirian"  placeholder="Jenis Usaha">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Add</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div> -->
-
-                                            <!-- Delete Confirmation Modal -->
+                    <!-- Delete Confirmation Modal -->
                     <div class="modal fade" id="modal-pelaku_umkm_delete<?= $r['id']; ?>" tabindex="-1" aria-labelledby="modal-pelaku_umkm_delete-label" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -279,40 +242,6 @@
         </div>
     </div>
 </div>
-
-<!-- Modal -->
-<!-- <div class="modal fade" id="identityCardModal" tabindex="-1" aria-labelledby="memberCardModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="memberCardModalLabel">Kartu Anggota UMKM</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="card">
-            <div class="card-header">
-                <h5>Kartu Anggota UMKM</h5>
-            </div>
-            <div class="card-body">
-                <img src="https://via.placeholder.com/100" alt="Foto Anggota">
-                <h5 class="card-title mt-3">Nama Anggota</h5>
-                <p class="card-text">Nama Usaha: <strong>Nama Usaha UMKM</strong></p>
-                <p class="card-text">Bidang Usaha: <strong>Bidang Usaha</strong></p>
-                <p class="card-text">Alamat: <strong>Alamat Lengkap</strong></p>
-                <p class="card-text">No. Telepon: <strong>Nomor Telepon</strong></p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Dinas Koperasi dan Usaha Mikro</small>
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-        <button type="button" class="btn btn-primary" onclick="printIdentityCard()">Print to PDF</button>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <div class="loading" id="loading">
     <div class="spinner-border text-primary spinner" role="status">

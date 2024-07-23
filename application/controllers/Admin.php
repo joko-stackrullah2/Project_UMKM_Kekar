@@ -11,6 +11,8 @@ class Admin extends CI_Controller
         $this->load->model('Hak_akses_m', 'hak_akses_m');
         $this->load->model('Auth_m','auth_m');
         $this->load->model('Pelaku_umkm_m','pelaku_umkm_m');
+        $this->load->model('Jenis_usaha_m','jenis_usaha_m');
+        $this->load->model('Produk_m','produk_m');
     }
 
     //PELAKU UMKM
@@ -61,7 +63,7 @@ class Admin extends CI_Controller
         if ($insert) {
             echo json_encode(array('success' => 'Tambah Pelaku UMKM Berhasil.'));
         } else {
-            echo json_encode(array('error' => 'Edit Pelaku UMKM Gagal.'));
+            echo json_encode(array('error' => 'Tambah Pelaku UMKM Gagal.'));
         }
     }
 
@@ -157,7 +159,6 @@ class Admin extends CI_Controller
         }
     }
 
-
     public function view_hak_akses_role_centang($role_id)
     {
         $data['title'] = 'Role Access';
@@ -174,7 +175,6 @@ class Admin extends CI_Controller
         $this->load->view('admin/view_hak_akses_role_centang', $data);
         $this->load->view('templates/footer');
     }
-
 
     public function changeAccess()
     {
@@ -211,7 +211,7 @@ class Admin extends CI_Controller
         $data['title'] = 'Jenis Usaha';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['role'] = $this->db->get('m_jenis_usaha')->result_array();
+        $data['dataJenisUsaha'] = $this->jenis_usaha_m->getAllJenisUsaha();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -220,6 +220,38 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function newOrEditJenisUsaha()
+    {
+        $tipe = htmlspecialchars($this->input->post('tipe', true));
+        $jenis_usaha_id = htmlspecialchars($this->input->post('jenis_usaha_id', true));
+        $data = ['jenis_usaha' => htmlspecialchars($this->input->post('jenis_usaha', true))];
+        if($tipe == 'new'){
+            $insert = $this->jenis_usaha_m->newJenisUsaha($data);
+            if ($insert) {
+                echo json_encode(array('success' => 'Berhasil menambahkan jenis usaha.'));
+            } else {
+                echo json_encode(array('error' => 'Gagal menambahkan jenis usaha.'));
+            }
+        }else{
+            $edit = $this->jenis_usaha_m->editJenisUsaha($data,$jenis_usaha_id);
+            if ($edit) {
+                echo json_encode(array('success' => 'Berhasil mengedit jenis usaha.'));
+            } else {
+                echo json_encode(array('error' => 'Gagal mengedit jenis usaha.'));
+            }
+        }
+    }
+
+    public function deleteJenisUsaha()
+    {
+        $data = ['jenis_usaha_id' => htmlspecialchars($this->input->post('jenis_usaha_id', true))];
+        $delete = $this->jenis_usaha_m->deleteJenisUsaha($data);
+        if ($delete) {
+            echo json_encode(array('success' => 'Berhasil menghapus jenis usaha.'));
+        } else {
+            echo json_encode(array('error' => 'Gagal menghapus jenis usaha.'));
+        }
+    }
 
 
 
@@ -235,7 +267,8 @@ class Admin extends CI_Controller
         $data['title'] = 'Produk UMKM';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['role'] = $this->db->get('m_produk')->result_array();
+        $data['dataProduk'] = $this->produk_m->getAllProduk();
+        $data['listUMKM'] = $this->db->get('m_umkm')->result_array();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -243,6 +276,57 @@ class Admin extends CI_Controller
         $this->load->view('master_umkm/produk', $data);
         $this->load->view('templates/footer');
     }
+
+    public function newProduk()
+    {
+        $data = [
+            'nama_produk' => htmlspecialchars($this->input->post('nama_produk', true)),
+            'deskripsi_produk' => htmlspecialchars($this->input->post('deskripsi_produk', true)),
+            'harga_produk' => htmlspecialchars($this->input->post('harga_produk', true)),
+            'stok_produk' => htmlspecialchars($this->input->post('stok_produk', true)),
+            'id_umkm' =>  htmlspecialchars($this->input->post('umkm', true)),
+        ];
+
+        $insert = $this->produk_m->newProduk($data);
+        if ($insert) {
+            echo json_encode(array('success' => 'Tambah Produk Berhasil.'));
+        } else {
+            echo json_encode(array('error' => 'Tambah Produk Gagal.'));
+        }
+    }
+
+    public function editProduk()
+    {
+        $id_produk = htmlspecialchars($this->input->post('id_produk', true));
+
+        $data = [
+            'nama_produk' => htmlspecialchars($this->input->post('nama_produk', true)),
+            'deskripsi_produk' => htmlspecialchars($this->input->post('deskripsi_produk', true)),
+            'harga_produk' => htmlspecialchars($this->input->post('harga_produk', true)),
+            'stok_produk' => htmlspecialchars($this->input->post('stok_produk', true)),
+            'id_umkm' => htmlspecialchars($this->input->post('umkm', true))
+        ];
+
+        $edit = $this->produk_m->editProduk($data,$id_produk);
+        if ($edit) {
+            echo json_encode(array('success' => 'Edit Produk Berhasil.'));
+        } else {
+            echo json_encode(array('error' => 'Edit Produk Gagal.'));
+        }
+    }
+
+    public function deleteProduk()
+    {
+        $data = ['id_produk' => htmlspecialchars($this->input->post('id_produk', true))];
+        $delete = $this->produk_m->deleteProduk($data);
+        if ($delete) {
+            echo json_encode(array('success' => 'Berhasil menghapus Produk.'));
+        } else {
+            echo json_encode(array('error' => 'Gagal menghapus Produk.'));
+        }
+    }
+
+
 
 
 

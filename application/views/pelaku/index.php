@@ -41,7 +41,6 @@
                         <td><?= $r['jenis_usaha']; ?></td>
                         <td><?= $r['status_verifikasi']; ?></td>
                         <td>
-                            <!-- <a href="<?= base_url('admin/view_hak_akses_role_centang/') . $r['id']; ?>" class="badge badge-warning">access</a> -->
                             <a href="" class="badge badge-success" data-toggle="modal" data-target="#modal-umkm_edit<?= $r['id_umkm']; ?>">Edit</a>
                             <a href="" class="badge badge-warning" data-toggle="modal" data-target="#infoModal<?= $r['id_umkm']; ?>">Ajukan Perizinan</a>
                             <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-umkm_delete<?= $r['id_umkm']; ?>">Delete</a>
@@ -63,11 +62,13 @@
                                         <div class="form-group">
                                             <p>Pelaku UMKM<p>
                                             <select name="pelaku_umkm" id="pelaku_umkm" class="form-control">
-                                                <?php
+                                                <option selected="selected" value="<?php echo $user['id']; ?>" ><?php echo $user['nama']; ?></option>
+
+                                                <!-- <?php
                                                 foreach($list_all_pelaku_umkm as $key => $data) { 
                                                     $select = ($r['pelaku_umkm_id'] == $data['id'])? "selected = 'selected'":"";?>
                                                     <option value="<?php echo $data['id']; ?>"  <?php echo $select; ?>><?php echo $data['nama']; ?></option>
-                                                <?php } ?>
+                                                <?php } ?> -->
                                             </select>
                                             <p>Nama UMKM<p>
                                             <input type="text" class="form-control" id="nama_umkm" name="nama_umkm" placeholder="Nama UMKM" value="<?= $r['nama_umkm'];?>">
@@ -172,15 +173,17 @@
                                         <p>Upload Foto KK<p>
                                         <input type="file" class="custom-file-input" id="foto_kk" name="foto_kk">
                                         <label class="custom-file-label" for="foto_kk">Choose file</label> -->
-                                        <p>Verifikasi ? <p>
-                                        <select name="is_verifikasi" id="is_verifikasi" class="form-control">
-                                            <option selectedvalue="0">
-                                                DITOLAK
-                                            </option>
-                                            <option value="1">
-                                                DISETUJUI
-                                            </option>
-                                        </select>
+                                        <?php if ($user['role_id'] == 1){  ?>
+                                            <p>Verifikasi ? <p>
+                                            <select name="is_verifikasi" id="is_verifikasi" class="form-control">
+                                                <option selectedvalue="0">
+                                                    DITOLAK
+                                                </option>
+                                                <option value="1">
+                                                    DISETUJUI
+                                                </option>
+                                            </select>
+                                        <?php } ?>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -272,54 +275,6 @@
 
 </div>
 
-<div class="modal fade" id="newRoleModal" tabindex="-1" role="dialog" aria-labelledby="newRoleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="newRoleModalLabel">Tambah Data Produk</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('admin/role'); ?>" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        
-                        <!-- <label for="wali">Wali Murid</label>
-                        <select name="wali" id="wali" class="form-control">
-                            <option selected="selected">
-                            -- Pilih Wali Murid --
-                            </option>
-                                                        <option selected="selected">
-                            -- Pilih Wali Murid --
-                            </option>
-                            <?php
-                            foreach($list as $key => $data) { 
-                                $select = (isset($data_pendaftar) && $data_pendaftar['wali_murid_id'] == $data_wali[$key]['wali_murid_id'] )?"selected = 'selected'":"";?>
-                                <option value="<?php echo $data_wali[$key]['wali_murid_id']; ?>"  <?php echo $select; ?>><?php echo $data_wali[$key]['nama']; ?></option>
-                            <?php } ?>
-                        </select> -->
-                        <p>Pilih UMKM<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Data UMKM">
-                        <p>Nama Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Nama Produk">
-                        <p>Deskripsi Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Deskripi Produk">
-                        <p>Harga Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Harga Produk">
-                        <p>Stok Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Stok Produk">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> 
-
 <div class="modal fade" id="modal-umkm_tambah" tabindex="-1" role="dialog" aria-labelledby="modal-umkm_tambah-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -335,14 +290,17 @@
                     <div class="form-group">
                         <p>Pelaku UMKM<p>
                         <select name="pelaku_umkm" id="pelaku_umkm" class="form-control">
-                            <option selected="selected" value="">
+                            <!-- <option selected="selected" value="">
                                 Pilih pelaku UMKM
-                            </option>
-                            <?php
+                            </option> -->
+                            <option selected="selected" value="<?php echo $user['id']; ?>" ><?php echo $user['nama']; ?></option>
+
+
+                            <!-- <?php
                             foreach($list_all_pelaku_umkm as $key => $data) { 
-                                // $select = (isset($data_pendaftar) && $data_pendaftar['wali_murid_id'] == $data_wali[$key]['wali_murid_id'] )?"selected = 'selected'":"";?>
+                            ?>
                                 <option value="<?php echo $data['id']; ?>" ><?php echo $data['nama']; ?></option>
-                            <?php } ?>
+                            <?php } ?> -->
                         </select>
                         <p>Nama UMKM<p>
                         <input type="text" class="form-control" id="nama_umkm" name="nama_umkm" placeholder="Nama UMKM">
@@ -432,7 +390,7 @@
         } else {
             $('#loading').show();
             $.ajax({
-                url: '<?php echo base_url(); ?>admin/newUMKM',
+                url: '<?php echo base_url(); ?>pelaku/newUMKM',
                 method: 'POST',
                 data: formValues,
                 dataType: 'json',
@@ -498,7 +456,7 @@
         } else {
             $('#loading').show();
             $.ajax({
-                url: '<?php echo base_url(); ?>admin/editUMKM',
+                url: '<?php echo base_url(); ?>pelaku/editUMKM',
                 method: 'POST',
                 data: formValues,
                 dataType: 'json',
@@ -526,7 +484,7 @@
         console.log(id_umkm)
         $('#loading').show();
         $.ajax({
-                url: '<?php echo base_url(); ?>admin/deleteUMKM',
+                url: '<?php echo base_url(); ?>pelaku/deleteUMKM',
                 method: 'POST',
                 data: { id_umkm : id_umkm },
                 success: function(response) {
@@ -606,7 +564,7 @@
         }else {
             $('#loading').show();
             $.ajax({
-                url: '<?php echo base_url(); ?>admin/editPerizinanUMKM/'+id_umkm,
+                url: '<?php echo base_url(); ?>pelaku/editPerizinanUMKM/'+id_umkm,
                 method: 'POST',
                 data: formData,
                 dataType: 'json',

@@ -83,7 +83,7 @@
                             roleId: roleId
                         },
                         success: function() {
-                            document.location.href = "<?= base_url('admin/roleaccess/'); ?>" + roleId;
+                            document.location.href = "<?= base_url('admin/view_hak_akses_role_centang/'); ?>" + roleId;
                         }
                     });
 

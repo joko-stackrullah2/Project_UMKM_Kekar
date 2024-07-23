@@ -55,9 +55,9 @@
                                         <div class="form-group">
                                             <select name="umkm" id="umkm<?= $r['id_produk']; ?>" class="form-control">
                                                 <?php
-                                                foreach($listUMKM as $key => $data) { 
+                                                foreach($listUMKMPelaku as $key => $data) { 
                                                     $select = ($r['id_umkm'] == $data['id_umkm'])? "selected = 'selected'":"";?>
-                                                    <option value="<?php echo $data['id_umkm']; ?>"  <?php echo $select; ?>><?php echo $data['nama_umkm']; ?></option>
+                                                    <option value="<?php echo $data['id_umkm']; ?>"  <?php echo $select; ?>><?php echo $data['nama_pelaku_umkm']; ?> - <?php echo $data['nama_umkm']; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -118,43 +118,7 @@
 <!-- /.container-fluid -->
 
 </div>
-<!-- End of Main Content -->
 
-<!-- Modal -->
-
-<!-- Modal -->
-<!-- <div class="modal fade" id="modal-produk_new" tabindex="-1" role="dialog" aria-labelledby="modal-produk_new_label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal-produk_new_label">Tambah Data Produk</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('admin/role'); ?>" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <p>Pilih UMKM<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Data UMKM">
-                        <p>Nama Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Nama Produk">
-                        <p>Deskripsi Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Deskripi Produk">
-                        <p>Harga Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Harga Produk">
-                        <p>Stok Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Stok Produk">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>  -->
 
 
 <div class="modal fade" id="modal-produk_new" tabindex="-1" role="dialog" aria-labelledby="modal-produk_new_label" aria-hidden="true">
@@ -176,9 +140,9 @@
                                 Pilih UMKM...
                             </option>
                             <?php
-                            foreach($listUMKM as $key => $data) { 
+                            foreach($listUMKMPelaku as $key => $data) { 
                             ?>
-                                <option value="<?php echo $data['id_umkm']; ?>" ><?php echo $data['nama_umkm']; ?></option>
+                                <option value="<?php echo $data['id_umkm']; ?>" ><?php echo $data['nama_pelaku_umkm']; ?> - <?php echo $data['nama_umkm']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -248,7 +212,7 @@
                 }
             $('#loading').show();
             $.ajax({
-                url: '<?php echo base_url(); ?>admin/newProduk',
+                url: '<?php echo base_url(); ?>pelaku/newProduk',
                 method: 'POST',
                 data: data,
                 dataType: 'json',
@@ -310,7 +274,7 @@
                 }
             $('#loading').show();
             $.ajax({
-                url: '<?php echo base_url(); ?>admin/editProduk',
+                url: '<?php echo base_url(); ?>pelaku/editProduk',
                 method: 'POST',
                 data: data,
                 dataType: 'json',
@@ -337,7 +301,7 @@
         console.log(id_produk)
         $('#loading').show();
         $.ajax({
-                url: '<?php echo base_url(); ?>admin/deleteProduk',
+                url: '<?php echo base_url(); ?>pelaku/deleteProduk',
                 method: 'POST',
                 data: { id_produk : id_produk },
                 success: function(response) {

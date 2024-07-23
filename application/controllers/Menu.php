@@ -9,6 +9,7 @@ class Menu extends CI_Controller
         is_logged_in();
     }
 
+// MENU
     public function index()
     {
         $data['title'] = 'Menu Management';
@@ -31,7 +32,50 @@ class Menu extends CI_Controller
         }
     }
 
+    public function newOrEditMenu()
+    {
+        $this->load->model('Menu_model', 'menu_m');
+        $tipe = htmlspecialchars($this->input->post('tipe', true));
+        $menu_id = htmlspecialchars($this->input->post('menu_id', true));
+        $data = ['menu' => htmlspecialchars($this->input->post('menu', true))];
+        if($tipe == 'new'){
+            $insert = $this->menu_m->newMenu($data);
+            if ($insert) {
+                echo json_encode(array('success' => 'Berhasil menambahkan menu.'));
+            } else {
+                echo json_encode(array('error' => 'Gagal menambahkan menu.'));
+            }
+        }else{
+            $edit = $this->menu_m->editMenu($data,$menu_id);
+            if ($edit) {
+                echo json_encode(array('success' => 'Berhasil mengedit menu.'));
+            } else {
+                echo json_encode(array('error' => 'Gagal mengedit menu.'));
+            }
+        }
+    }
 
+    public function deleteMenu()
+    {
+        $this->load->model('Menu_model', 'menu_m');
+        $data = ['menu_id' => htmlspecialchars($this->input->post('menu_id', true))];
+        $delete = $this->menu_m->deleteMenu($data);
+        if ($delete) {
+            echo json_encode(array('success' => 'Berhasil menghapus menu.'));
+        } else {
+            echo json_encode(array('error' => 'Gagal menghapus menu.'));
+        }
+    }
+
+
+
+
+
+
+
+
+
+//SUB MENU
     public function submenu()
     {
         $data['title'] = 'Submenu Management';
@@ -63,6 +107,40 @@ class Menu extends CI_Controller
             $this->db->insert('user_sub_menu', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New sub menu added!</div>');
             redirect('menu/submenu');
+        }
+    }
+
+
+    public function editSubMenu()
+    {
+        $id = htmlspecialchars($this->input->post('id', true));
+        $this->load->model('Menu_model', 'menu');
+        $data = [
+            'title' => htmlspecialchars($this->input->post('title', true)),
+            'menu_id' => htmlspecialchars($this->input->post('menu_id', true)),
+            'url' => htmlspecialchars($this->input->post('url', true)),
+            'icon' => htmlspecialchars($this->input->post('icon', true)),
+            'is_active' => htmlspecialchars($this->input->post('is_active', true)),
+            'id' => $id
+        ];
+
+        $edit = $this->menu->editSubMenu($data,$id);
+        if ($edit) {
+            echo json_encode(array('success' => 'Edit Sub menu Berhasil.'));
+        } else {
+            echo json_encode(array('error' => 'Edit Sub Menu Gagal.'));
+        }
+    }
+
+    public function deleteSubMenu()
+    {
+        $this->load->model('Menu_model', 'menu');
+        $data = ['id' => htmlspecialchars($this->input->post('id', true))];
+        $delete = $this->menu->deleteSubMenu($data);
+        if ($delete) {
+            echo json_encode(array('success' => 'Berhasil menghapus Sub Menu.'));
+        } else {
+            echo json_encode(array('error' => 'Gagal menghapus Sub Menu.'));
         }
     }
 }

@@ -23,6 +23,20 @@
                 </div>
             </div>
             <div class="form-group row">
+                <label for="nama" class="col-sm-2 col-form-label">Alamat</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="alamat" name="alamat" value="<?= $user['alamat']; ?>">
+                    <?= form_error('alamat', '<small class="text-danger pl-3">', '</small>'); ?>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="nama" class="col-sm-2 col-form-label">No.telepon</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="no_telepon" name="no_telepon" value="<?= $user['no_telepon']; ?>">
+                    <?= form_error('no_telepon', '<small class="text-danger pl-3">', '</small>'); ?>
+                </div>
+            </div>
+            <div class="form-group row">
                 <div class="col-sm-2">Picture</div>
                 <div class="col-sm-10">
                     <div class="row">

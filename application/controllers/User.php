@@ -38,6 +38,8 @@ class User extends CI_Controller
         } else {
             $nama = $this->input->post('nama');
             $email = $this->input->post('email');
+            $alamat = $this->input->post('alamat');
+            $no_telepon = $this->input->post('no_telepon');
 
             // cek jika ada gambar yang akan diupload
             $upload_image = $_FILES['image']['name'];
@@ -62,6 +64,8 @@ class User extends CI_Controller
             }
 
             $this->db->set('nama', $nama);
+            $this->db->set('alamat', $alamat);
+            $this->db->set('no_telepon', $no_telepon);
             $this->db->where('email', $email);
             $this->db->update('user');
 
