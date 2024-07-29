@@ -87,4 +87,39 @@ class Perizinan_umkm_m extends CI_Model
         return $this->db->delete('m_umkm', $data);
     }
 
+
+    // Function to insert file data into the database
+    public function insert_file_umkm($fileData)
+    {
+        $this->db->where('umkm_i', $fileData["umkm_id"]);
+        $this->db->delete('file_umkm', $fileData);
+
+        $this->db->insert('file_umkm', $fileData);
+        return $this->db->insert_id();
+    }
+
+    // Function to get file data by id
+    public function getFileUmkmById($umkm_id)
+    {
+        $this->db->where('umkm_id', $umkm_id);
+        $query = $this->db->get('file_umkm');
+        return $query->result_array();
+    }
+
+    // Function to update file data in the database
+    public function update_file_data($fileId, $fileData)
+    {
+        // Fetch the old file data
+        $oldFileData = $this->get_file_data($fileId);
+
+        // Delete the old file if it exists
+        if ($oldFileData && file_exists('./uploads/' . $oldFileData->file_name)) {
+            unlink('./uploads/' . $oldFileData->file_name);
+        }
+
+        // Update with new file data
+        $this->db->where('id', $fileId);
+        $this->db->update('file_umkm', $fileData);
+    }
+
 }

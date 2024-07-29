@@ -436,62 +436,176 @@ class Admin extends CI_Controller
         }
     }
 
+    public function submit()
+    {
+        $this->load->library('upload');
+        $files = $_FILES;
+        $descriptions = $this->input->post('descriptions');
+        $numberOfFiles = count($files['files']['name']);
+
+        $numberOfFiles = count($files['files']['name']);
+
+        for ($i = 0; $i < $numberOfFiles; $i++) {
+            $_FILES['file']['name'] = $files['files']['name'][$i];
+            $_FILES['file']['type'] = $files['files']['type'][$i];
+            $_FILES['file']['tmp_name'] = $files['files']['tmp_name'][$i];
+            $_FILES['file']['error'] = $files['files']['error'][$i];
+            $_FILES['file']['size'] = $files['files']['size'][$i];
+
+            $this->upload->initialize($this->set_upload_options());
+
+            if ($this->upload->do_upload('file')) {
+                $data = $this->upload->data();
+                $fileData = array(
+                    'nama_file' => $data['file_name'],
+                    'path_file' => $data['full_path'],
+                    'keterangan' => $descriptions[$i],
+                    ''
+                );
+
+                // Assuming $fileId is the ID of the file being edited. If new upload, set $fileId = NULL or handle accordingly.
+                $tipeInsertOrEdit = $this->input->post('tipeInsertOrEdit'); // For example purposes, this needs to be handled in your form.
+
+                if ($tipeInsertOrEdit) {
+
+                } else {
+                    $this->perizinan_umkm_m->insert_file_umkm($fileData);
+                }
+
+                echo "File " . ($i + 1) . " uploaded successfully.<br>";
+                echo "Description: " . $descriptions[$i] . "<br><br>";
+            } else {
+                echo $this->upload->display_errors() . "<br>";
+            }
+        }
+    }
+
+    private function set_upload_options()
+    {
+        // upload preferences
+        $config = array();
+        $config['upload_path'] = './assets/img/perizinan/';
+        $config['allowed_types'] = 'gif|jpg|png|pdf|doc|docx';
+        $config['max_size'] = '0'; // 0 means no limit
+        $config['overwrite'] = FALSE;
+
+        return $config;
+    }
+
+    public function getFileUmkmById()
+    {
+        $umkm_id = htmlspecialchars($this->input->post('umkm_id', true));
+        $data = $this->perizinan_umkm_m->getFileUmkmById($umkm_id);
+
+        echo json_encode($data);
+    }
+
     public function editPerizinanUMKM($id_umkm="")
     {
         $is_oss = htmlspecialchars($this->input->post('is_oss', true));
         $is_bpom = htmlspecialchars($this->input->post('is_bpom', true));
         $is_verifikasi = htmlspecialchars($this->input->post('is_verifikasi', true));
         $tanggal_pengajuan_izin = date("Y-m-d H:i:s");
+        $umkm_id = htmlspecialchars($this->input->post('umkm_id', true));
 
-        $config['upload_path'] = './assets/img/perizinan/';
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $config['max_size'] = 2000; // Set your size limit (in KB)
+        // $config['upload_path'] = './assets/img/perizinan/';
+        // $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        // $config['max_size'] = 2000; // Set your size limit (in KB)
 
-        $this->load->library('upload', $config);
+        // $this->load->library('upload', $config);
 
+        // $files = $_FILES;
+        // $count = count($_FILES['images']['name']);
+        // $uploaded_files = [];
+
+        // for ($i = 0; $i < $count; $i++) {
+        //     if (!empty($files['images']['name'][$i])) {
+        //         $_FILES['image']['name'] = $files['images']['name'][$i];
+        //         $_FILES['image']['type'] = $files['images']['type'][$i];
+        //         $_FILES['image']['tmp_name'] = $files['images']['tmp_name'][$i];
+        //         $_FILES['image']['error'] = $files['images']['error'][$i];
+        //         $_FILES['image']['size'] = $files['images']['size'][$i];
+
+        //         if ($this->upload->do_upload('image')) {
+        //             $uploaded_files[] = $this->upload->data('file_name');
+        //         } else {
+        //             $error = $this->upload->display_errors();
+        //             echo json_encode(['error' => $error]);
+        //             return;
+        //         }
+        //     }
+        // }
+
+        // if (empty($uploaded_files) || count($uploaded_files) < 3) {
+        //     echo json_encode(['error' => 'No files were selected for upload']);
+        //     return;
+        // }
+        $this->load->library('upload');
         $files = $_FILES;
-        $count = count($_FILES['images']['name']);
-        $uploaded_files = [];
+        $descriptions = $this->input->post('descriptions');
+        $fileIds = $this->input->post('file_umkm_ids');
+        $numberOfFiles = count($files['files']['name']);
+        $numberOfFilesEdit = count($files['files']['file_umkm_id']);
+        print_r($numberOfFilesEdit);
+        exit;
+        for ($i = 0; $i < $numberOfFiles; $i++) {
+            $_FILES['file']['name'] = $files['files']['name'][$i];
+            $_FILES['file']['type'] = $files['files']['type'][$i];
+            $_FILES['file']['tmp_name'] = $files['files']['tmp_name'][$i];
+            $_FILES['file']['error'] = $files['files']['error'][$i];
+            $_FILES['file']['size'] = $files['files']['size'][$i];
 
-        for ($i = 0; $i < $count; $i++) {
-            if (!empty($files['images']['name'][$i])) {
-                $_FILES['image']['name'] = $files['images']['name'][$i];
-                $_FILES['image']['type'] = $files['images']['type'][$i];
-                $_FILES['image']['tmp_name'] = $files['images']['tmp_name'][$i];
-                $_FILES['image']['error'] = $files['images']['error'][$i];
-                $_FILES['image']['size'] = $files['images']['size'][$i];
+            $this->upload->initialize($this->set_upload_options());
 
-                if ($this->upload->do_upload('image')) {
-                    $uploaded_files[] = $this->upload->data('file_name');
-                } else {
-                    $error = $this->upload->display_errors();
-                    echo json_encode(['error' => $error]);
-                    return;
-                }
+            if ($this->upload->do_upload('file')) {
+                $data = $this->upload->data();
+                $fileData = array(
+                    'nama_file' => $data['file_name'],
+                    'path_file' => "assets/img/perizinan/".$data['file_name'],
+                    'keterangan' => $descriptions[$i],
+                    'umkm_id' => $umkm_id
+                );
+
+                // Assuming $fileId is the ID of the file being edited. If new upload, set $fileId = NULL or handle accordingly.
+                // For example purposes, this needs to be handled in your form.
+                // $tipeInsertOrEdit = $this->input->post('tipeInsertOrEdit'); 
+
+                // if ($tipeInsertOrEdit) {
+
+                // } else {
+                    $this->perizinan_umkm_m->insert_file_umkm($fileData);
+                // }
+
+                // echo "File " . ($i + 1) . " uploaded successfully.<br>";
+                // echo "Description: " . $descriptions[$i] . "<br><br>";
+            } else {
+                echo $this->upload->display_errors() . "<br>";
             }
-        }
-
-        if (empty($uploaded_files) || count($uploaded_files) < 3) {
-            echo json_encode(['error' => 'No files were selected for upload']);
-            return;
         }
 
         $data = [
             'is_oss' => $is_oss,
             'is_bpom' => $is_bpom,
             'is_verifikasi' => $is_verifikasi,
-            'tanggal_pengajuan_izin' => $tanggal_pengajuan_izin,
-            'foto_nib' => $uploaded_files[0],
-            'foto_ktp' => $uploaded_files[1],
-            'foto_kk' => $uploaded_files[2]
+            'tanggal_pengajuan_izin' => $tanggal_pengajuan_izin
         ];
 
         //editUMKM sama aja bisa mengupdate perizinan
         $edit = $this->perizinan_umkm_m->editUMKM($data,$id_umkm);
         if ($edit) {
-            echo json_encode(array('success' => 'Edit Perizinan UMKM Berhasil.'));
+            echo json_encode(
+                array(
+                    'msg' => 'Edit Perizinan UMKM Berhasil.',
+                    'status' => true
+                )
+            );
         } else {
-            echo json_encode(array('error' => 'Edit Perizinan UMKM Gagal.'));
+            echo json_encode(
+                array(
+                    'msg' => 'Edit Perizinan UMKM Gagal.',
+                    'status' => false
+                )
+            );
         }
     }
 

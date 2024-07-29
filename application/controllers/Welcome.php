@@ -2,24 +2,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Perizinan_umkm_m', 'perizinan_umkm_m');
+    }
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
 	public function index()
 	{
-		$this->load->view('home/index');
+        $data['jml_terverifikasi'] = $this->db->get_where('m_umkm', ['is_verifikasi' => 1])->num_rows();
+		$data['jml_tertolak'] = $this->db->get_where('m_umkm', ['is_verifikasi' => 0])->num_rows();
+		$data['jml_belum_verif'] = $this->db->get_where('m_umkm', ['is_verifikasi' => null])->num_rows();
+		$data['jml_semua'] = $this->db->get('m_umkm')->num_rows();
+		$this->load->view('home/index',$data);
 	}
 }

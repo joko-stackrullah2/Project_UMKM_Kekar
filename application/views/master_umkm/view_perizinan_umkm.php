@@ -59,6 +59,7 @@
                                 </div>
                                 <div id="message<?= $r['id_umkm']; ?>" class="mt-3"></div>
                                 <form id="form-umkm_edit<?= $r['id_umkm']; ?>">
+                                    <input type="hidden" name='edit' id='edit<?= $r['id_umkm']; ?>'/>
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <p>Pelaku UMKM<p>
@@ -134,7 +135,7 @@
                                             <option value="1">SUDAH</option>
                                         </select>
                                         <p>Jika UMKM tersebut dibidang kuliner, Apakah sudah mendaftar ke online situs resmi BPOM ?<p>
-                                        <select name="is_bpom" id="is_bpom" class="form-control">
+                                        <select name="is_bpom" id="is_bpom" class="form-control" style="margin-bottom: 20px;">
                                             <option selected value="0">
                                                 BELUM
                                             </option>
@@ -142,37 +143,17 @@
                                                 SUDAH
                                             </option>
                                         </select>
-                                        <p>Upload Foto NIB<p>
-                                        <div style="justify-content: center;margin-bottom: 10px">
-                                            <img src="<?= $r['foto_nib'] == null ? base_url('assets/img/profile/default.jpg') : base_url('assets/img/perizinan/').$r['foto_nib']; ?>" style="width: 320px;height:270px;margin-bottom:10px">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="foto_nib" name="images[]">
-                                                <label class="custom-file-label" for="foto_nib">Choose file</label>
-                                            </div>
-                                        </div>
-                                        <p>Upload Foto KTP<p>
-                                        <div style="justify-content: center;margin-bottom: 10px">
-                                            <img src="<?= $r['foto_ktp'] == null ? base_url('assets/img/profile/default.jpg') : base_url('assets/img/perizinan/').$r['foto_ktp']; ?>" style="width: 320px;height:270px;margin-bottom:10px">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="foto_ktp<?= $r['id_umkm']; ?>" name="images[]">
-                                                <label class="custom-file-label" for="foto_ktp">Choose file</label>
-                                            </div>
-                                        </div>
-                                        <p>Upload Foto KK<p>
-                                        <div style="justify-content: center;margin-bottom: 10px">
-                                            <img src="<?= $r['foto_kk'] == null ? base_url('assets/img/profile/default.jpg') : base_url('assets/img/perizinan/').$r['foto_kk']; ?>" style="width: 320px;height:270px;margin-bottom:10px">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="foto_kk" name="images[]">
-                                                <label class="custom-file-label" for="foto_kk">Choose file</label>
-                                            </div>
-                                        </div>
-                                        <!-- <p>Upload Foto KTP<p>
-                                        <input type="file" class="custom-file-input" id="foto_ktp" name="foto_ktp">
-                                        <label class="custom-file-label" for="foto_ktp">Choose file</label>
-                                        <p>Upload Foto KK<p>
-                                        <input type="file" class="custom-file-input" id="foto_kk" name="foto_kk">
-                                        <label class="custom-file-label" for="foto_kk">Choose file</label> -->
-                                        <p>Verifikasi ? <p>
+
+
+                                            <label for="num_files">Jumlah File Upload:</label>
+                                            <input type="number" id="num_files<?= $r['id_umkm']; ?>" name="num_files" min="3" max="10" placeholder="maksimal 10 file" required>
+                                            <button type="button" onclick="generateFileInputs(<?= $r['id_umkm']; ?>)">Generate</button>
+                                            <br><br>
+
+                                            <div id="file_inputs_container<?= $r['id_umkm']; ?>" name="file_inputs_container"></div>
+
+
+                                        <p style="margin-top: 20px;">Verifikasi ? <p>
                                         <select name="is_verifikasi" id="is_verifikasi" class="form-control">
                                             <option selectedvalue="0">
                                                 DITOLAK
@@ -256,6 +237,39 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- <div class="modal fade" id="modal-umkm_perizinan_file<?= $r['id_umkm']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal-umkm_perizinan_file-label" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modal-umkm_perizinan_file-label">Edit Data Perizinan UMKM</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div id="message_perizinan_file<?= $r['id_umkm']; ?>" class="mt-3"></div>
+                                <div class="modal-body">
+                                    <form id="uploadForm" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="file">Choose file</label>
+                                            <input type="file" class="form-control" id="file" name="file">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                    </form>
+                                    <?php echo form_open_multipart('upload/submit', array('id' => 'upload_form')); ?>
+                                        <label for="num_files">Number of files:</label>
+                                        <input type="number" id="num_files" name="num_files" min="1" max="10" required>
+                                        <button type="button" onclick="generateFileInputs()">Generate</button>
+                                        <br><br>
+
+                                        <div id="file_inputs_container"></div>
+
+                                        <button type="button" onclick="submitForm()">Upload</button>
+                                    <?php echo form_close(); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  -->
 
                     <?php $i++; ?>
                     <?php endforeach; ?>
@@ -381,13 +395,12 @@
 </div>
 
 <script>
-
     function showSecondModal(id_umkm) {
         $('#infoModal'+id_umkm).modal('hide');
         $('#infoModal'+id_umkm).on('hidden.bs.modal', function () {
             $('#modal-umkm_perizinan'+id_umkm).modal('show');
-            // Remove event listener to prevent it from being triggered multiple times
             $('#infoModal'+id_umkm).off('hidden.bs.modal');
+            getFileUmkmById(id_umkm)
         });
     }
 
@@ -566,28 +579,30 @@
 
     function editPerizinanUMKM(id_umkm){
         const formData = new FormData(document.getElementById('form-umkm_perizinan'+id_umkm));
-        const foto_nib = formData.get('foto_nib')
-        const foto_ktp = formData.get('foto_ktp')
-        const foto_kk = formData.get('foto_kk')
-        let errorMessage = '';
+        const edit = document.getElementById('edit'+id_umkm).value
+        // const foto_nib = formData.get('foto_nib')
+        // const foto_ktp = formData.get('foto_ktp')
+        // const foto_kk = formData.get('foto_kk')
+        // let errorMessage = '';
 
-        var form = document.getElementById('form-umkm_perizinan'+id_umkm);
-        var inputs = form.querySelectorAll('input, select');
-        var formData2 = new FormData();
-        var isValid = true;
+        // var formFile = new FormData(document.getElementById('upload_form'+id_umkm));
+        // var inputs = form.querySelectorAll('input, select');
+        // var formData2 = new FormData();
+        var errorMessages = [];
+        var is_valid = true;
 
-        inputs.forEach(function(input) {
-            if (input.type === 'file') {
-                console.log(input.files.length)
-                if (input.files.length === 0) {
-                    alert('Please select a file for ' + input.name);
-                    isValid = false;
-                    return false;
-                } else {
-                    formData2.append(input.name, input.files[0]);
-                }
-            }
-        })
+        // inputs.forEach(function(input) {
+        //     if (input.type === 'file') {
+        //         console.log(input.files.length)
+        //         if (input.files.length === 0) {
+        //             alert('Please select a file for ' + input.name);
+        //             isValid = false;
+        //             return false;
+        //         } else {
+        //             formData2.append(input.name, input.files[0]);
+        //         }
+        //     }
+        // })
 
         // if (foto_nib == "" || foto_nib == null || foto_nib == "null" ) {
         //     errorMessage += '<p>Wajib Upload Foto NIB.</p>';
@@ -598,12 +613,55 @@
         // if (foto_kk.name == "") {
         //     errorMessage += '<p>Wajib Upload Foto KK.</p>';
         // }
+        var numberOfFiles = document.getElementById('num_files'+id_umkm).value;
+
+        if(numberOfFiles === "null" || numberOfFiles === null || numberOfFiles === ""){
+            is_valid = false
+            errorMessages.push('Wajib Upload ' + (i + 1) + ' dokumen.');
+        }
+
+        for (var i = 0; i < numberOfFiles; i++) {
+            var fileInput = document.getElementById('file'+id_umkm+'_'+i);
+            var descriptionInput = document.getElementById('description'+id_umkm+'_'+i);
+            var fileId = document.getElementById('file_umkm_id'+id_umkm+'_'+i);
+
+            if (!fileInput.value && !fileId.value) {
+                is_valid = false;
+                errorMessages.push('Semua File ' + (i + 1) + ' wajib diupload.');
+            }
+
+            if (!descriptionInput.value) {
+                is_valid = false;
+                errorMessages.push('Keterangan File ' + (i + 1) + ' wajib diisi.');
+            }
+            
+        }
 
 
 
-        if (!isValid) {
+        if (!is_valid) {
+            alert(errorMessages.join('\n'));
             return;
         }else {
+
+            // console.log(JSON.stringify(formData))
+            // console.log("FORM FILE"+JSON.stringify(formData))
+            for (var i = 0; i < numberOfFiles; i++) {
+                var fileInput = document.getElementById('file'+id_umkm+'_'+i);
+                var descriptionInput = document.getElementById('description'+id_umkm+'_'+i);
+                var fileId = document.getElementById('file_umkm_id'+id_umkm+'_'+i);
+
+                formData.append('files[]', fileInput.files[0]);
+                formData.append('descriptions[]', descriptionInput.value);
+                formData.append('file_umkm_ids[]', fileId.value);
+            }
+
+            formData.append('umkm_id',id_umkm)
+
+            for (var [key, value] of formData.entries()) { 
+                console.log(key, value);
+            }
+
             $('#loading').show();
             $.ajax({
                 url: '<?php echo base_url(); ?>admin/editPerizinanUMKM/'+id_umkm,
@@ -614,12 +672,12 @@
                 contentType: false,
                 success: function(response) {
                     console.log(response)
-                    if(response.error) {
+                    if(!response.status) {
                         $('#loading').hide();
-                        $('#message_perizinan'+id_umkm).html('<div class="alert alert-danger">' + response.error + '</div>');
+                        $('#message_perizinan'+id_umkm).html('<div class="alert alert-danger">' + response.msg + '</div>');
                     } else {
                         $('#loading').hide();
-                        $('#message_perizinan'+id_umkm).html('<div class="alert alert-success">' + response.success + '</div>');
+                        $('#message_perizinan'+id_umkm).html('<div class="alert alert-success">' + response.msg + '</div>');
                         window.location.reload();  // Refresh the page
                     }
                 },
@@ -629,5 +687,102 @@
                 }
             });
         }
+    }
+
+
+    function generateFileInputs(id_umkm='') {
+        var numberOfFiles = document.getElementById('num_files'+id_umkm).value;
+        var fileInputsContainer = document.getElementById('file_inputs_container'+id_umkm);
+        fileInputsContainer.innerHTML = '';
+        var defaultValue = [
+            'Foto KTP',
+            'Foto KK',
+            'Foto NIB',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain'
+        ] 
+
+        for (var i = 0; i < numberOfFiles; i++) {
+            var fileInputDiv = document.createElement('div');
+            fileInputDiv.innerHTML = `
+                <input type="hidden" name="file_umkm_ids[]" id="file_umkm_id${id_umkm}_${i}" value=""></input>
+                <label for="file${id_umkm}_${i}">File ${i + 1}:</label>
+                <input type="file" name="files[]" id="file${id_umkm}_${i}" onchange="previewImage(this, ${i},${id_umkm})" required><br>
+                <label for="description${id_umkm}_${i}">Keterangan ${i + 1}:</label>
+                <input type="text" name="descriptions[]" id="description${id_umkm}_${i}" value ="${defaultValue[i]}" required><br>
+                <img id="preview${id_umkm}_${i}" src="#" alt="Image Preview" style="display: none; max-width: 200px; margin-top: 10px;"><br><br>
+            `;
+            fileInputsContainer.appendChild(fileInputDiv);
+        }
+    }
+
+    function previewImage(input, index,id_umkm) {
+        var file = input.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var preview = document.getElementById('preview'+ id_umkm+'_'+index);
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function previewImageEdit(input, index,id_umkm,file_umkm_id="") {
+        var file = input.files[0];
+        if(file_umkm_id){
+            input.files[0].file_umkm_id = file_umkm_id
+        }
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var preview = document.getElementById('preview'+ id_umkm+'_'+index);
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function submitForm() {
+        var form = document.getElementById('upload_form');
+        form.submit();
+    }
+
+    function getFileUmkmById(id_umkm){
+        console.log(id_umkm)
+        $.ajax({
+            url: '<?php echo base_url(); ?>admin/getFileUmkmById',
+            method: 'POST',
+            data: {umkm_id : id_umkm},
+            dataType: 'json',
+            success: function(response) {
+
+                if(response.length > 0){
+                    document.getElementById('num_files'+id_umkm).value = response.length;
+                    document.getElementById('edit'+id_umkm).value = 1;
+                    var fileInputsContainer = document.getElementById('file_inputs_container'+id_umkm);
+                    for (var i = 0; i < response.length; i++) {
+                        console.log(response[i]["path_file"])
+                        var fileInputDiv = document.createElement('div');
+                        fileInputDiv.innerHTML = `
+                            <input type="hidden" name="file_umkm_ids[]" id="file_umkm_id${id_umkm}_${i}" value="${response[i]["file_umkm_id"]}"></input>
+                            <label for="file${id_umkm}_${i}">File ${i + 1}:</label>
+                            <input type="file" name="files[]" id="file${id_umkm}_${i}" onchange="previewImageEdit(this, ${i},${id_umkm},${response[i]["file_umkm_id"]})" required><br>
+                            <label for="description${id_umkm}_${i}">Keterangan ${i + 1}:</label>
+                            <input type="text" name="descriptions[]" id="description${id_umkm}_${i}" value ="${response[i]["keterangan"]}" required><br>
+                            <img id="preview${id_umkm}_${i}" src="<?php echo base_url(); ?>${response[i]["path_file"]}" alt="Image Preview" style="max-width: 200px; margin-top: 10px;"><br><br>
+                        `;
+                        fileInputsContainer.appendChild(fileInputDiv);
+                    }
+                }
+            }
+        });
     }
 </script>

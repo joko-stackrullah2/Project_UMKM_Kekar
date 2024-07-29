@@ -139,21 +139,28 @@
         <div class="row stats-row justify-content-center">
           <div class="stats-col text-center col-md-3 col-sm-6">
             <div class="circle">
-              <span data-purecounter-start="0" data-purecounter-end="57" data-purecounter-duration="1" class="purecounter stats-no"></span>
+              <span data-purecounter-start="0" data-purecounter-end="<?php echo $jml_terverifikasi ?>" data-purecounter-duration="1" class="purecounter stats-no"></span>
               Pelaku UMKM Terverifikasi
             </div>
           </div>
 
           <div class="stats-col text-center col-md-3 col-sm-6">
             <div class="circle">
-              <span data-purecounter-start="0" data-purecounter-end="40" data-purecounter-duration="1" class="purecounter stats-no"></span>
-              Pelaku UMKM Belum Terverifikasi
+              <span data-purecounter-start="0" data-purecounter-end="<?php echo $jml_tertolak ?>" data-purecounter-duration="1" class="purecounter stats-no"></span>
+              Pelaku UMKM Tidak Terverifikasi
             </div>
           </div>
 
           <div class="stats-col text-center col-md-3 col-sm-6">
             <div class="circle">
-              <span data-purecounter-start="0" data-purecounter-end="97" data-purecounter-duration="1" class="purecounter stats-no"></span>
+              <span data-purecounter-start="0" data-purecounter-end="<?php echo $jml_belum_verif ?>" data-purecounter-duration="1" class="purecounter stats-no"></span>
+              Pelaku Belum Terverifikasi
+            </div>
+          </div>
+
+          <div class="stats-col text-center col-md-3 col-sm-6">
+            <div class="circle">
+              <span data-purecounter-start="0" data-purecounter-end="<?php echo $jml_semua ?>" data-purecounter-duration="1" class="purecounter stats-no"></span>
               Semua Pelaku UMKM Terdaftar
             </div>
           </div>
