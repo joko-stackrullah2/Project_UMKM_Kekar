@@ -91,7 +91,7 @@ class Perizinan_umkm_m extends CI_Model
     // Function to insert file data into the database
     public function insert_file_umkm($fileData)
     {
-        $this->db->where('umkm_i', $fileData["umkm_id"]);
+        $this->db->where('umkm_id', $fileData["umkm_id"]);
         $this->db->delete('file_umkm', $fileData);
 
         $this->db->insert('file_umkm', $fileData);

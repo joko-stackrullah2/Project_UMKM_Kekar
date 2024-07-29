@@ -333,7 +333,7 @@
                 }
             $('#loading').show();
             $.ajax({
-                url: '<?php echo base_url(); ?>admin/newPelakuUMKM',
+                url: '<?php echo base_url(); ?>koordinator/newPelakuUMKM',
                 method: 'POST',
                 data: data,
                 dataType: 'json',
@@ -409,7 +409,7 @@
                 }
             $('#loading').show();
             $.ajax({
-                url: '<?php echo base_url(); ?>admin/editPelakuUMKM',
+                url: '<?php echo base_url(); ?>koordinator/editPelakuUMKM',
                 method: 'POST',
                 data: data,
                 dataType: 'json',
@@ -436,7 +436,7 @@
         console.log(id)
         $('#loading').show();
         $.ajax({
-                url: '<?php echo base_url(); ?>admin/deletePelakuUMKM',
+                url: '<?php echo base_url(); ?>koordinator/deletePelakuUMKM',
                 method: 'POST',
                 data: { id: id },
                 success: function(response) {

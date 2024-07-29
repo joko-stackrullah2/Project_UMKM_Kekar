@@ -13,6 +13,7 @@ class Admin extends CI_Controller
         $this->load->model('Pelaku_umkm_m','pelaku_umkm_m');
         $this->load->model('Jenis_usaha_m','jenis_usaha_m');
         $this->load->model('Produk_m','produk_m');
+        $this->load->model('Desa_m','desa_m');
     }
 
     //PELAKU UMKM
@@ -22,6 +23,7 @@ class Admin extends CI_Controller
         $data['title'] = 'Pelaku UMKM';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['list_hak_akses'] = $this->hak_akses_m->getAllListHakAkses();
+        $data['list_desa'] = $this->desa_m->getAllListDesa();
         $data['pelaku'] = $this->pelaku_umkm_m->getAllPelakuUMKM();
 
         $this->load->view('templates/header', $data);
@@ -43,6 +45,7 @@ class Admin extends CI_Controller
             'image' => 'default.jpg',
             'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
             'role_id' =>  htmlspecialchars($this->input->post('role', true)),
+            'desa_id' =>  htmlspecialchars($this->input->post('desa', true)),
             'is_active' => 1,
             'date_created' => time()
         ];
@@ -78,6 +81,7 @@ class Admin extends CI_Controller
             'no_telepon' => htmlspecialchars($this->input->post('no_telepon', true)),
             'email' => htmlspecialchars($email),
             'role_id' =>  htmlspecialchars($this->input->post('role', true)),
+            'desa_id' =>  htmlspecialchars($this->input->post('desa', true)),
             'is_active' => 1,
             'date_created' => time()
         ];
@@ -436,50 +440,6 @@ class Admin extends CI_Controller
         }
     }
 
-    public function submit()
-    {
-        $this->load->library('upload');
-        $files = $_FILES;
-        $descriptions = $this->input->post('descriptions');
-        $numberOfFiles = count($files['files']['name']);
-
-        $numberOfFiles = count($files['files']['name']);
-
-        for ($i = 0; $i < $numberOfFiles; $i++) {
-            $_FILES['file']['name'] = $files['files']['name'][$i];
-            $_FILES['file']['type'] = $files['files']['type'][$i];
-            $_FILES['file']['tmp_name'] = $files['files']['tmp_name'][$i];
-            $_FILES['file']['error'] = $files['files']['error'][$i];
-            $_FILES['file']['size'] = $files['files']['size'][$i];
-
-            $this->upload->initialize($this->set_upload_options());
-
-            if ($this->upload->do_upload('file')) {
-                $data = $this->upload->data();
-                $fileData = array(
-                    'nama_file' => $data['file_name'],
-                    'path_file' => $data['full_path'],
-                    'keterangan' => $descriptions[$i],
-                    ''
-                );
-
-                // Assuming $fileId is the ID of the file being edited. If new upload, set $fileId = NULL or handle accordingly.
-                $tipeInsertOrEdit = $this->input->post('tipeInsertOrEdit'); // For example purposes, this needs to be handled in your form.
-
-                if ($tipeInsertOrEdit) {
-
-                } else {
-                    $this->perizinan_umkm_m->insert_file_umkm($fileData);
-                }
-
-                echo "File " . ($i + 1) . " uploaded successfully.<br>";
-                echo "Description: " . $descriptions[$i] . "<br><br>";
-            } else {
-                echo $this->upload->display_errors() . "<br>";
-            }
-        }
-    }
-
     private function set_upload_options()
     {
         // upload preferences
@@ -543,11 +503,11 @@ class Admin extends CI_Controller
         $this->load->library('upload');
         $files = $_FILES;
         $descriptions = $this->input->post('descriptions');
-        $fileIds = $this->input->post('file_umkm_ids');
+        // $fileIds = $this->input->post('file_umkm_ids');
         $numberOfFiles = count($files['files']['name']);
-        $numberOfFilesEdit = count($files['files']['file_umkm_id']);
-        print_r($numberOfFilesEdit);
-        exit;
+        // $numberOfFilesEdit = count($files['files']['file_umkm_id']);
+        // print_r($numberOfFilesEdit);
+        // exit;
         for ($i = 0; $i < $numberOfFiles; $i++) {
             $_FILES['file']['name'] = $files['files']['name'][$i];
             $_FILES['file']['type'] = $files['files']['type'][$i];
@@ -586,6 +546,7 @@ class Admin extends CI_Controller
         $data = [
             'is_oss' => $is_oss,
             'is_bpom' => $is_bpom,
+            //default verifikasi adalah null jika bukan admin
             'is_verifikasi' => $is_verifikasi,
             'tanggal_pengajuan_izin' => $tanggal_pengajuan_izin
         ];
@@ -606,6 +567,64 @@ class Admin extends CI_Controller
                     'status' => false
                 )
             );
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    // JENIS USAHA
+
+    public function view_desa()
+    {
+        $data['title'] = 'Desa';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['dataDesa'] = $this->desa_m->getAllListDesa();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('master_umkm/desa', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function newOrEditDesa()
+    {
+        $tipe = htmlspecialchars($this->input->post('tipe', true));
+        $desa_id = htmlspecialchars($this->input->post('desa_id', true));
+        $data = ['desa' => htmlspecialchars($this->input->post('desa', true))];
+        if($tipe == 'new'){
+            $insert = $this->desa_m->newDesa($data);
+            if ($insert) {
+                echo json_encode(array('success' => 'Berhasil menambahkan desa.'));
+            } else {
+                echo json_encode(array('error' => 'Gagal menambahkan desa.'));
+            }
+        }else{
+            $edit = $this->desa_m->editDesa($data,$desa_id);
+            if ($edit) {
+                echo json_encode(array('success' => 'Berhasil mengedit desa.'));
+            } else {
+                echo json_encode(array('error' => 'Gagal mengedit desa.'));
+            }
+        }
+    }
+
+    public function deleteDesa()
+    {
+        $data = ['desa_id' => htmlspecialchars($this->input->post('desa_id', true))];
+        $delete = $this->desa_m->deleteDesa($data);
+        if ($delete) {
+            echo json_encode(array('success' => 'Berhasil menghapus desa.'));
+        } else {
+            echo json_encode(array('error' => 'Gagal menghapus desa.'));
         }
     }
 

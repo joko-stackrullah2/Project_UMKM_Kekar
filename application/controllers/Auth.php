@@ -9,6 +9,7 @@ class Auth extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Hak_akses_m','hak_akses_m');
         $this->load->model('Auth_m','auth_m');
+        $this->load->model('Desa_m','desa_m');
     }
 
     public function index()
@@ -72,6 +73,7 @@ class Auth extends CI_Controller
     public function view_registration(){
         $data['title'] = 'User Registration';
         $data['list_hak_akses'] = $this->hak_akses_m->getAllListHakAkses();
+        $data['list_desa'] = $this->desa_m->getAllListDesa();
         $this->load->view('templates/auth_header', $data);
         $this->load->view('auth/view_registration',$data);
         $this->load->view('templates/auth_footer');
@@ -109,6 +111,7 @@ class Auth extends CI_Controller
                 'image' => 'default.jpg',
                 'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
                 'role_id' => htmlspecialchars($this->input->post('role', true)),
+                'desa_id' => htmlspecialchars($this->input->post('desa', true)),
                 'is_active' => 0,
                 'date_created' => time()
             ];

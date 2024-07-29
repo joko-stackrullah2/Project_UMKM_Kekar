@@ -49,6 +49,19 @@
                                     <?php } ?>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="desa" style="font-size: small;">Desa</label>
+                                <select name="desa" id="desa" class="form-control">
+                                    <option selected="selected" value="">
+                                        Pilih Desa...
+                                    </option>
+                                    <?php
+                                    foreach($list_desa as $key => $data) { 
+                                        // $select = (isset($data_pendaftar) && $data_pendaftar['wali_murid_id'] == $data_wali[$key]['wali_murid_id'] )?"selected = 'selected'":"";?>
+                                        <option value="<?php echo $data['desa_id']; ?>" ><?php echo $data['desa']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
                             <button type="button" class="btn btn-primary btn-user btn-block" onclick="registration()">
                                 Registrasi
                             </button>
@@ -81,6 +94,7 @@
         var no_telepon = $('#no_telepon').val();
         var password1 = $('#password1').val();
         var password2 = $('#password2').val();
+        var desa = $('#desa').val();
         var role = $('#role').val();
         var errorMessage = '';
 
@@ -112,6 +126,9 @@
         if (role == '') {
             errorMessage += '<p>Wajib Memilih hak Akses.</p>';
         }
+        if (desa == '') {
+            errorMessage += '<p>Wajib Memilih Desa.</p>';
+        }
 
         if (errorMessage != '') {
             $('#message').html('<div class="alert alert-danger">' + errorMessage + '</div>');
@@ -128,7 +145,8 @@
                     no_telepon : no_telepon,
                     password1 :password1,
                     password2 : password2,
-                    role : role
+                    role : role,
+                    desa : desa
                 },
                 dataType: 'json',
                 success: function(response) {

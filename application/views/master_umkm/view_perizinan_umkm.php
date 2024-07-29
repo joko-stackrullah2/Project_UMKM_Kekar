@@ -41,7 +41,6 @@
                         <td><?= $r['jenis_usaha']; ?></td>
                         <td><?= $r['status_verifikasi']; ?></td>
                         <td>
-                            <!-- <a href="<?= base_url('admin/view_hak_akses_role_centang/') . $r['id']; ?>" class="badge badge-warning">access</a> -->
                             <a href="" class="badge badge-success" data-toggle="modal" data-target="#modal-umkm_edit<?= $r['id_umkm']; ?>">Edit</a>
                             <a href="" class="badge badge-warning" data-toggle="modal" data-target="#infoModal<?= $r['id_umkm']; ?>">Ajukan Perizinan</a>
                             <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-umkm_delete<?= $r['id_umkm']; ?>">Delete</a>
@@ -59,7 +58,7 @@
                                 </div>
                                 <div id="message<?= $r['id_umkm']; ?>" class="mt-3"></div>
                                 <form id="form-umkm_edit<?= $r['id_umkm']; ?>">
-                                    <input type="hidden" name='edit' id='edit<?= $r['id_umkm']; ?>'/>
+
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <p>Pelaku UMKM<p>
@@ -128,6 +127,7 @@
                                 </div>
                                 <div id="message_perizinan<?= $r['id_umkm']; ?>" class="mt-3"></div>
                                 <form id="form-umkm_perizinan<?= $r['id_umkm']; ?>">
+                                    <input type="hidden" name='edit' id='edit<?= $r['id_umkm']; ?>'/>
                                     <div class="modal-body">
                                         <p>Apakah telah memiliki aplikasi OSS atau sudah melakukan pengurusan ke MPP ?<p>
                                         <select name="is_oss" id="is_oss" class="form-control">
@@ -238,39 +238,6 @@
                         </div>
                     </div>
 
-                    <!-- <div class="modal fade" id="modal-umkm_perizinan_file<?= $r['id_umkm']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal-umkm_perizinan_file-label" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modal-umkm_perizinan_file-label">Edit Data Perizinan UMKM</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div id="message_perizinan_file<?= $r['id_umkm']; ?>" class="mt-3"></div>
-                                <div class="modal-body">
-                                    <form id="uploadForm" enctype="multipart/form-data">
-                                        <div class="form-group">
-                                            <label for="file">Choose file</label>
-                                            <input type="file" class="form-control" id="file" name="file">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Upload</button>
-                                    </form>
-                                    <?php echo form_open_multipart('upload/submit', array('id' => 'upload_form')); ?>
-                                        <label for="num_files">Number of files:</label>
-                                        <input type="number" id="num_files" name="num_files" min="1" max="10" required>
-                                        <button type="button" onclick="generateFileInputs()">Generate</button>
-                                        <br><br>
-
-                                        <div id="file_inputs_container"></div>
-
-                                        <button type="button" onclick="submitForm()">Upload</button>
-                                    <?php echo form_close(); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  -->
-
                     <?php $i++; ?>
                     <?php endforeach; ?>
                 </tbody>
@@ -285,54 +252,6 @@
 </div>
 
 </div>
-
-<div class="modal fade" id="newRoleModal" tabindex="-1" role="dialog" aria-labelledby="newRoleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="newRoleModalLabel">Tambah Data Produk</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('admin/role'); ?>" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        
-                        <!-- <label for="wali">Wali Murid</label>
-                        <select name="wali" id="wali" class="form-control">
-                            <option selected="selected">
-                            -- Pilih Wali Murid --
-                            </option>
-                                                        <option selected="selected">
-                            -- Pilih Wali Murid --
-                            </option>
-                            <?php
-                            foreach($list as $key => $data) { 
-                                $select = (isset($data_pendaftar) && $data_pendaftar['wali_murid_id'] == $data_wali[$key]['wali_murid_id'] )?"selected = 'selected'":"";?>
-                                <option value="<?php echo $data_wali[$key]['wali_murid_id']; ?>"  <?php echo $select; ?>><?php echo $data_wali[$key]['nama']; ?></option>
-                            <?php } ?>
-                        </select> -->
-                        <p>Pilih UMKM<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Data UMKM">
-                        <p>Nama Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Nama Produk">
-                        <p>Deskripsi Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Deskripi Produk">
-                        <p>Harga Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Harga Produk">
-                        <p>Stok Produk<p>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Stok Produk">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> 
 
 <div class="modal fade" id="modal-umkm_tambah" tabindex="-1" role="dialog" aria-labelledby="modal-umkm_tambah-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -657,6 +576,7 @@
             }
 
             formData.append('umkm_id',id_umkm)
+            formData.append('role_id',<?php echo $user['role_id']?>)
 
             for (var [key, value] of formData.entries()) { 
                 console.log(key, value);
@@ -688,7 +608,6 @@
             });
         }
     }
-
 
     function generateFileInputs(id_umkm='') {
         var numberOfFiles = document.getElementById('num_files'+id_umkm).value;
@@ -748,11 +667,6 @@
             }
             reader.readAsDataURL(file);
         }
-    }
-
-    function submitForm() {
-        var form = document.getElementById('upload_form');
-        form.submit();
     }
 
     function getFileUmkmById(id_umkm){
