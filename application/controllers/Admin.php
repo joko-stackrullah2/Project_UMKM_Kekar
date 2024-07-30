@@ -579,7 +579,7 @@ class Admin extends CI_Controller
 
 
 
-    // JENIS USAHA
+    // DESA
 
     public function view_desa()
     {
@@ -628,4 +628,101 @@ class Admin extends CI_Controller
         }
     }
 
+
+
+
+
+
+        // MANAJEMEN DOKUMEN PERIZINAN
+
+        public function view_manajemen_dok_perizinan()
+        {
+            $data['title'] = 'Manajemen Perizinan';
+            $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+    
+            $data['dataDokumenPerizinan'] = $this->desa_m->getAllListDesa();
+    
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('master_umkm/manajemen_dok_perizinan', $data);
+            $this->load->view('templates/footer');
+        }
+    
+        public function verifPerizinan($id_umkm="")
+        {
+            $catatan = htmlspecialchars($this->input->post('catatan', true));
+            $is_verifikasi = htmlspecialchars($this->input->post('is_verifikasi', true));
+            $tanggal_pengajuan_izin = date("Y-m-d H:i:s");
+            $umkm_id = htmlspecialchars($this->input->post('umkm_id', true));
+    
+            $this->load->library('upload');
+            $files = $_FILES;
+            $descriptions = $this->input->post('descriptions');
+            // $fileIds = $this->input->post('file_umkm_ids');
+            $numberOfFiles = count($files['files']['name']);
+            // $numberOfFilesEdit = count($files['files']['file_umkm_id']);
+            // print_r($numberOfFilesEdit);
+            // exit;
+            for ($i = 0; $i < $numberOfFiles; $i++) {
+                $_FILES['file']['name'] = $files['files']['name'][$i];
+                $_FILES['file']['type'] = $files['files']['type'][$i];
+                $_FILES['file']['tmp_name'] = $files['files']['tmp_name'][$i];
+                $_FILES['file']['error'] = $files['files']['error'][$i];
+                $_FILES['file']['size'] = $files['files']['size'][$i];
+    
+                $this->upload->initialize($this->set_upload_options());
+    
+                if ($this->upload->do_upload('file')) {
+                    $data = $this->upload->data();
+                    $fileData = array(
+                        'nama_file' => $data['file_name'],
+                        'path_file' => "assets/img/perizinan/".$data['file_name'],
+                        'keterangan' => $descriptions[$i],
+                        'umkm_id' => $umkm_id
+                    );
+    
+                    // Assuming $fileId is the ID of the file being edited. If new upload, set $fileId = NULL or handle accordingly.
+                    // For example purposes, this needs to be handled in your form.
+                    // $tipeInsertOrEdit = $this->input->post('tipeInsertOrEdit'); 
+    
+                    // if ($tipeInsertOrEdit) {
+    
+                    // } else {
+                        $this->perizinan_umkm_m->insert_file_umkm($fileData);
+                    // }
+    
+                    // echo "File " . ($i + 1) . " uploaded successfully.<br>";
+                    // echo "Description: " . $descriptions[$i] . "<br><br>";
+                } else {
+                    echo $this->upload->display_errors() . "<br>";
+                }
+            }
+    
+            $data = [
+                'is_oss' => $is_oss,
+                'is_bpom' => $is_bpom,
+                //default verifikasi adalah null jika bukan admin
+                'is_verifikasi' => $is_verifikasi,
+                'tanggal_pengajuan_izin' => $tanggal_pengajuan_izin
+            ];
+    
+            //editUMKM sama aja bisa mengupdate perizinan
+            $edit = $this->perizinan_umkm_m->editUMKM($data,$id_umkm);
+            if ($edit) {
+                echo json_encode(
+                    array(
+                        'msg' => 'Edit Perizinan UMKM Berhasil.',
+                        'status' => true
+                    )
+                );
+            } else {
+                echo json_encode(
+                    array(
+                        'msg' => 'Edit Perizinan UMKM Gagal.',
+                        'status' => false
+                    )
+                );
+            }
+        }
 }
