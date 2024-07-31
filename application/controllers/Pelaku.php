@@ -316,6 +316,7 @@ class Pelaku extends CI_Controller
              $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
      
              $data['dataFileUMKM'] = $this->perizinan_umkm_m->getFileUmkmByUserId($data['user']['id']);
+             $data['listUMKMPelaku'] = $this->perizinan_umkm_m->getUMKMPelaku($data['user']['id']);
      
              $this->load->view('templates/header', $data);
              $this->load->view('templates/sidebar', $data);
@@ -324,53 +325,55 @@ class Pelaku extends CI_Controller
              $this->load->view('templates/footer');
          }
      
-        //  public function newProduk()
-        //  {
-        //      $data = [
-        //          'nama_produk' => htmlspecialchars($this->input->post('nama_produk', true)),
-        //          'deskripsi_produk' => htmlspecialchars($this->input->post('deskripsi_produk', true)),
-        //          'harga_produk' => htmlspecialchars($this->input->post('harga_produk', true)),
-        //          'stok_produk' => htmlspecialchars($this->input->post('stok_produk', true)),
-        //          'id_umkm' =>  htmlspecialchars($this->input->post('umkm', true)),
-        //      ];
-     
-        //      $insert = $this->produk_m->newProduk($data);
-        //      if ($insert) {
-        //          echo json_encode(array('success' => 'Tambah Produk Berhasil.'));
-        //      } else {
-        //          echo json_encode(array('error' => 'Tambah Produk Gagal.'));
-        //      }
-        //  }
-     
-        //  public function editProduk()
-        //  {
-        //      $id_produk = htmlspecialchars($this->input->post('id_produk', true));
-     
-        //      $data = [
-        //          'nama_produk' => htmlspecialchars($this->input->post('nama_produk', true)),
-        //          'deskripsi_produk' => htmlspecialchars($this->input->post('deskripsi_produk', true)),
-        //          'harga_produk' => htmlspecialchars($this->input->post('harga_produk', true)),
-        //          'stok_produk' => htmlspecialchars($this->input->post('stok_produk', true)),
-        //          'id_umkm' => htmlspecialchars($this->input->post('umkm', true))
-        //      ];
-     
-        //      $edit = $this->produk_m->editProduk($data,$id_produk);
-        //      if ($edit) {
-        //          echo json_encode(array('success' => 'Edit Produk Berhasil.'));
-        //      } else {
-        //          echo json_encode(array('error' => 'Edit Produk Gagal.'));
-        //      }
-        //  }
-     
-        //  public function deleteProduk()
-        //  {
-        //      $data = ['id_produk' => htmlspecialchars($this->input->post('id_produk', true))];
-        //      $delete = $this->produk_m->deleteProduk($data);
-        //      if ($delete) {
-        //          echo json_encode(array('success' => 'Berhasil menghapus Produk.'));
-        //      } else {
-        //          echo json_encode(array('error' => 'Gagal menghapus Produk.'));
-        //      }
-        //  }
+         public function newDokumenPerizinan()
+         {
+            $umkm = htmlspecialchars($this->input->post('umkm', true));
+            $tanggal_upload = date("Y-m-d H:i:s");
+    
+            $this->load->library('upload');
+            $files = $_FILES;
+            $descriptions = $this->input->post('descriptions');
+            $numberOfFiles = htmlspecialchars($this->input->post('num_files', true));
+            // print_r($numberOfFiles);
+            // exit;
+            for ($i = 0; $i < $numberOfFiles; $i++) {
+                $_FILES['file']['name'] = $files['files']['name'][$i];
+                $_FILES['file']['type'] = $files['files']['type'][$i];
+                $_FILES['file']['tmp_name'] = $files['files']['tmp_name'][$i];
+                $_FILES['file']['error'] = $files['files']['error'][$i];
+                $_FILES['file']['size'] = $files['files']['size'][$i];
+    
+                $this->upload->initialize($this->set_upload_options());
+    
+                if ($this->upload->do_upload('file')) {
+                $data = $this->upload->data();
+                $fileData = array(
+                    'nama_file' => $data['file_name'],
+                    'path_file' => "assets/img/perizinan/".$data['file_name'],
+                    'keterangan' => $descriptions[$i],
+                    'umkm_id' => $umkm,
+                    'tanggal_upload' => $tanggal_upload
+                );
+                $this->perizinan_umkm_m->insert_file_umkm($fileData);
+                } else {
+                    echo $this->upload->display_errors() . "<br>";
+                }
+            }
+            if($this->db->affected_rows() > 0){
+                echo json_encode(
+                    array(
+                        'msg' => 'Berhasil Upload',
+                        'status' => true
+                    )
+                );
+            }else{
+                echo json_encode(
+                    array(
+                        'msg' => 'Gagal Upload',
+                        'status' => false
+                    )
+                );
+            }
+         }
 }
 ?>

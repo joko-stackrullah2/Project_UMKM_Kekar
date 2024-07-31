@@ -8,7 +8,7 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-produk_new">Upload Dokumen Perizinan</a>
+            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-manajemen_perizinan">Upload Dokumen Perizinan</a>
 
             <table class="table table-hover">
                 <thead>
@@ -35,7 +35,6 @@
                             <td><?= $r['path_file']; ?></td>
                             <td><?= $r['is_verifikasi']; ?></td>
                             <td>
-                                <!-- <a href="" class="badge badge-success" data-toggle="modal" data-target="#modal-produk_edit_<?= $r['id_produk']; ?>">edit</a> -->
                                 <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-produk_delete<?= $r['file_umkm_id']; ?>">Delete</a>
                             </td>
                         </tr>
@@ -124,28 +123,26 @@
             <form id="form-manajemen_perizinan">
                 <input type="hidden" name='edit' id='edit'/>
                 <div class="modal-body">
-                    <p>Apakah telah memiliki aplikasi OSS atau sudah melakukan pengurusan ke MPP ?<p>
-                    <select name="is_oss" id="is_oss" class="form-control">
-                        <option selected value="0">BELUM</option>
-                        <option value="1">SUDAH</option>
-                    </select>
-                    <p>Jika UMKM tersebut dibidang kuliner, Apakah sudah mendaftar ke online situs resmi BPOM ?<p>
-                    <select name="is_bpom" id="is_bpom" class="form-control" style="margin-bottom: 20px;">
-                        <option selected value="0">
-                            BELUM
+                    <select name="umkm" id="umkm" class="form-control" style="margin-bottom: 20px;" onchange="updateCustomData()">
+                        <option selected="selected" value="">
+                            Pilih UMKM...
                         </option>
-                        <option value="1">
-                            SUDAH
-                        </option>
+                        <?php
+                        foreach($listUMKMPelaku as $key => $data) { 
+                        ?>
+                            <option value="<?php echo $data['id_umkm']; ?>" data-custom="<?= $data['jenis_usaha']; ?>"><?php echo $data['nama_pelaku_umkm']; ?> - <?php echo $data['nama_umkm']; ?></option>
+                        <?php } ?>
                     </select>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="jenis_usaha" name="jenis_usaha" placeholder="Jenis Usaha">
+                    </div>
 
+                    <label for="num_files">Jumlah File Upload:</label>
+                    <input type="number" id="num_files" name="num_files" min="3" max="10" placeholder="max 10" required>
+                    <button type="button" onclick="generateFileInputs()">Buat Upload File</button>
+                    <br><br>
 
-                        <label for="num_files">Jumlah File Upload:</label>
-                        <input type="number" id="num_files" name="num_files" min="3" max="10" placeholder="maksimal 10 file" required>
-                        <button type="button" onclick="generateFileInputs()">Generate</button>
-                        <br><br>
-
-                        <div id="file_inputs_container" name="file_inputs_container"></div>
+                    <div id="file_inputs_container" name="file_inputs_container"></div>
 
 
                     <p style="margin-top: 20px;<?php echo $user['role_id'] != 1 ? "display: none" : "display: block"?>">Verifikasi ? <p>
@@ -160,7 +157,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="editPerizinanUMKM(<?= $r['id_umkm'];?>)">Edit</button>
+                    <button type="button" class="btn btn-primary" onclick="newDokumenPerizinan()">Simpan</button>
                 </div>
             </form>
         </div>
@@ -174,123 +171,79 @@
 </div>
 
 <script>
-    function newProduk(){
-        var nama_produk = $('#nama_produk').val();
-        var deskripsi_produk = $('#deskripsi_produk').val();
-        var harga_produk = $('#harga_produk').val();
-        var stok_produk = $('#stok_produk').val();
-        var umkm = $('#umkm').val();
-        var errorMessage = '';
-
-        if (umkm == '') {
-            errorMessage += '<p>Wajib Memilih UMKM.</p>';
-        }
-        if (nama_produk == '') {
-            errorMessage += '<p>Nama Produk wajib diisi.</p>';
-        }
-        if (deskripsi_produk == '') {
-            errorMessage += '<p>Deskripsi Produk wajib diisi.</p>';
-        }
-        if (harga_produk == '') {
-            errorMessage += '<p>Harga Produk wajib diisi.</p>';
-        }
-        if (stok_produk == '') {
-            errorMessage += '<p>Stok produk wajib diisi.</p>';
+    function newDokumenPerizinan(){
+        const formData = new FormData(document.getElementById('form-manajemen_perizinan'));
+        let errorMessages = [];
+        let is_valid = true;
+        let umkm = document.getElementById('umkm').value;
+        let numberOfFiles = document.getElementById('num_files').value;
+        if(umkm === "null" || umkm === null || umkm === ""){
+            is_valid = false
+            errorMessages.push('Wajib pilih salah satu UMKM');
         }
 
+        if(numberOfFiles === "null" || numberOfFiles === null || numberOfFiles === ""){
+            is_valid = false
+            errorMessages.push('Wajib Upload dokumen.');
+        }
 
-        if (errorMessage != '') {
-            $('#message').html('<div class="alert alert-danger">' + errorMessage + '</div>');
-        } else {
-            let data = {
-                    nama_produk : nama_produk,
-                    deskripsi_produk : deskripsi_produk,
-                    harga_produk : harga_produk,
-                    stok_produk : stok_produk,
-                    umkm : umkm
-                }
+        for (let i = 0; i < numberOfFiles; i++) {
+            let fileInput = document.getElementById('file'+i);
+            let descriptionInput = document.getElementById('description'+i);
+
+            if (!fileInput.value) {
+                is_valid = false;
+                errorMessages.push('Semua File ' + (i + 1) + ' wajib diupload.');
+            }
+
+            if (!descriptionInput.value) {
+                is_valid = false;
+                errorMessages.push('Keterangan File ' + (i + 1) + ' wajib diisi.');
+            }
+            
+        }
+
+        if (!is_valid) {
+            alert(errorMessages.join('\n'));
+            return;
+        }else {
+            console.log("NUMBER OF FILE GUYS"+numberOfFiles)
+            for (let i = 0; i < numberOfFiles; i++) {
+                let fileInput = document.getElementById('file'+i);
+                let descriptionInput = document.getElementById('description'+i);
+
+                formData.append('files[]', fileInput.files[0]);
+                formData.append('descriptions[]', descriptionInput.value);
+            }
+
+            formData.append('umkm_id',umkm)
+
+            for (let [key, value] of formData.entries()) { 
+                console.log(key, value);
+            }
+
             $('#loading').show();
             $.ajax({
-                url: '<?php echo base_url(); ?>pelaku/newProduk',
+                url: '<?php echo base_url(); ?>pelaku/newDokumenPerizinan',
                 method: 'POST',
-                data: data,
+                data: formData,
                 dataType: 'json',
+                processData: false, 
+                contentType: false,
                 success: function(response) {
                     console.log(response)
-                    if(response.error) {
+                    if(!response.status) {
                         $('#loading').hide();
-                        $('#message').html('<div class="alert alert-danger">' + response.error + '</div>');
+                        $('#message_perizinan').html('<div class="alert alert-danger">' + response.msg + '</div>');
                     } else {
                         $('#loading').hide();
-                        $('#message').html('<div class="alert alert-success">' + response.success + '</div>');
+                        $('#message_perizinan').html('<div class="alert alert-success">' + response.msg + '</div>');
                         window.location.reload();  // Refresh the page
                     }
                 },
                 error: function() {
                     $('#loading').hide();
-                    $('#message').html('<div class="alert alert-danger">Terjadi kesalahan,hubungi tim IT</div>');
-                }
-            });
-        }
-    }
-
-
-    function editProduk(id_produk=''){
-        var nama_produk = $('#nama_produk'+id_produk).val();
-        var harga_produk = $('#harga_produk'+id_produk).val();
-        var deskripsi_produk = $('#deskripsi_produk'+id_produk).val();
-        var stok_produk = $('#stok_produk'+id_produk).val();
-        var umkm = $('#umkm'+id_produk).val();
-        var errorMessage = '';
-
-        if (umkm == '') {
-            errorMessage += '<p>Wajib Memilih UMKM.</p>';
-        }
-        if (nama_produk == '') {
-            errorMessage += '<p>Nama Produk wajib diisi.</p>';
-        }
-        if (deskripsi_produk == '') {
-            errorMessage += '<p>Deskripsi Produk wajib diisi.</p>';
-        }
-        if (harga_produk == '') {
-            errorMessage += '<p>Harga Produk wajib diisi.</p>';
-        }
-        if (stok_produk == '') {
-            errorMessage += '<p>Stok produk wajib diisi.</p>';
-        }
-
-        console.log(errorMessage)
-        if (errorMessage != '') {
-            $('#message'+id_produk).html('<div class="alert alert-danger">' + errorMessage + '</div>');
-        } else {
-            let data = {
-                    nama_produk : nama_produk,
-                    deskripsi_produk : deskripsi_produk,
-                    harga_produk : harga_produk,
-                    stok_produk : stok_produk,
-                    umkm : umkm,
-                    id_produk : id_produk
-                }
-            $('#loading').show();
-            $.ajax({
-                url: '<?php echo base_url(); ?>pelaku/editProduk',
-                method: 'POST',
-                data: data,
-                dataType: 'json',
-                success: function(response) {
-                    console.log(response)
-                    if(response.error) {
-                        $('#loading').hide();
-                        $('#message'+id_produk).html('<div class="alert alert-danger">' + response.error + '</div>');
-                    } else {
-                        $('#loading').hide();
-                        $('#message'+id_produk).html('<div class="alert alert-success">' + response.success + '</div>');
-                        window.location.reload();  // Refresh the page
-                    }
-                },
-                error: function() {
-                    $('#loading').hide();
-                    $('#message'+id_produk).html('<div class="alert alert-danger">Terjadi kesalahan,hubungi tim IT</div>');
+                    $('#message_perizinan').html('<div class="alert alert-danger">Terjadi kesalahan,hubungi tim IT</div>');
                 }
             });
         }
@@ -304,7 +257,7 @@
                 method: 'POST',
                 data: { id_produk : id_produk },
                 success: function(response) {
-                    var result = JSON.parse(response);
+                    let result = JSON.parse(response);
                     console.log(result)
                     if(result.error) {
                         $('#loading').hide();
@@ -319,5 +272,55 @@
                     alert('Terjadi kesalahan, hubungi tim IT.');
                 }
             });
+    }
+
+    function updateCustomData() {
+        let dropdown = document.getElementById("umkm");
+        let selectedOption = dropdown.options[dropdown.selectedIndex];
+        let customData = selectedOption.getAttribute('data-custom');
+        document.getElementById("jenis_usaha").value = customData;
+    }
+
+    function generateFileInputs(){
+        let numberOfFiles = document.getElementById('num_files').value;
+        let fileInputsContainer = document.getElementById('file_inputs_container');
+        fileInputsContainer.innerHTML = '';
+        let defaultValue = [
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain',
+            'File lain-lain'
+        ] 
+
+        for (let i = 0; i < numberOfFiles; i++) {
+            let fileInputDiv = document.createElement('div');
+            fileInputDiv.innerHTML = `
+                <label for="file${i}">File${i + 1}:</label>
+                <input type="file" name="files[]" id="file${i}" onchange="previewImage(this, ${i})" required><br>
+                <label for="description${i}">Keterangan${i + 1}:</label>
+                <input type="text" name="descriptions[]" id="description${i}" value ="${defaultValue[i]}" required><br>
+                <img id="preview${i}" src="#" alt="Image Preview" style="display: none; max-width: 200px; margin-top: 10px;"><br><br>
+            `;
+            fileInputsContainer.appendChild(fileInputDiv);
+        }
+    }
+
+    function previewImage(input, index) {
+        let file = input.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let preview = document.getElementById('preview'+index);
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
     }
 </script>
