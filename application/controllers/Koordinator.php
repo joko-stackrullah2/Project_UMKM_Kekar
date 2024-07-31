@@ -105,4 +105,31 @@ class Koordinator extends CI_Controller
         }
     }
 
+
+
+
+
+
+    public function getFileUmkmById()
+    {
+        $umkm_id = htmlspecialchars($this->input->post('umkm_id', true));
+        $data = $this->perizinan_umkm_m->getFileUmkmById($umkm_id);
+
+        echo json_encode($data);
+    }
+
+    public function view_manajemen_perizinan_umkm()
+    {
+        $data['title'] = 'Manajemen Perizinan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['data_umkm'] = $this->perizinan_umkm_m->getUMKM();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('koordinator/view_manajemen_perizinan_umkm', $data);
+        $this->load->view('templates/footer');
+    }
+
 }

@@ -23,7 +23,7 @@
                         <th width="35%" scope="col">Alamat UMKM</th>
                         <th width="35%" scope="col">Tanggal Pendirian</th>
                         <th width="35%" scope="col">Jenis Usaha</th>
-                        <!-- <th width="35%" scope="col">Status Verif</th> -->
+                        <th width="35%" scope="col">Status Verif</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -39,11 +39,9 @@
                         <td><?= $r['alamat_umkm']; ?></td>
                         <td><?= $r['tanggal_pendirian']; ?></td>
                         <td><?= $r['jenis_usaha']; ?></td>
-                        <!-- <td><?= $r['status_verifikasi']; ?></td> -->
+                        <td><?= $r['status_verifikasi']; ?></td>
                         <td>
-                            <a href="" class="badge badge-success" data-toggle="modal" data-target="#modal-umkm_edit<?= $r['id_umkm']; ?>">Edit</a>
-                            <a href="" class="badge badge-warning" data-toggle="modal" data-target="#perizinanModal<?= $r['id_umkm']; ?>">Info Perizinan</a>
-                            <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-umkm_delete<?= $r['id_umkm']; ?>">Delete</a>
+                            <a href="" class="badge badge-success" data-toggle="modal" data-target="#perizinanModal<?= $r['id_umkm']; ?>">Lihat Detail</a>
                         </td>
                     </tr>
 
@@ -120,7 +118,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modal-umkm_perizinan-label">Edit Data Perizinan UMKM</h5>
+                                    <h5 class="modal-title" id="modal-umkm_perizinan-label">Manajemen Perizinan UMKM</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -129,43 +127,7 @@
                                 <form id="form-umkm_perizinan<?= $r['id_umkm']; ?>">
                                     <input type="hidden" name='edit' id='edit<?= $r['id_umkm']; ?>'/>
                                     <div class="modal-body">
-                                        <p>Apakah telah memiliki aplikasi OSS atau sudah melakukan pengurusan ke MPP ?<p>
-                                        <select name="is_oss" id="is_oss" class="form-control">
-                                            <option selected value="0">BELUM</option>
-                                            <option value="1">SUDAH</option>
-                                        </select>
-                                        <p>Jika UMKM tersebut dibidang kuliner, Apakah sudah mendaftar ke online situs resmi BPOM ?<p>
-                                        <select name="is_bpom" id="is_bpom" class="form-control" style="margin-bottom: 20px;">
-                                            <option selected value="0">
-                                                BELUM
-                                            </option>
-                                            <option value="1">
-                                                SUDAH
-                                            </option>
-                                        </select>
-
-
-                                            <label for="num_files">Jumlah File Upload:</label>
-                                            <input type="number" id="num_files<?= $r['id_umkm']; ?>" name="num_files" min="3" max="10" placeholder="maksimal 10 file" required>
-                                            <button type="button" onclick="generateFileInputs(<?= $r['id_umkm']; ?>)">Generate</button>
-                                            <br><br>
-
-                                            <div id="file_inputs_container<?= $r['id_umkm']; ?>" name="file_inputs_container"></div>
-
-
-                                        <p style="margin-top: 20px;">Verifikasi ? <p>
-                                        <select name="is_verifikasi" id="is_verifikasi" class="form-control">
-                                            <option selectedvalue="0">
-                                                DITOLAK
-                                            </option>
-                                            <option value="1">
-                                                DISETUJUI
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="editPerizinanUMKM(<?= $r['id_umkm'];?>)">Edit</button>
+                                        <div id="file_inputs_container<?= $r['id_umkm']; ?>" name="file_inputs_container"></div>
                                     </div>
                                 </form>
                             </div>
@@ -750,6 +712,7 @@
                                 <!-- Modal Footer -->
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="showSecondModal(<?= $r['id_umkm']; ?>)">Lanjutkan</button>
                                 </div>
                                 
                             </div>
@@ -833,10 +796,10 @@
 
 <script>
     function showSecondModal(id_umkm) {
-        $('#infoModal'+id_umkm).modal('hide');
-        $('#infoModal'+id_umkm).on('hidden.bs.modal', function () {
+        $('#perizinanModal'+id_umkm).modal('hide');
+        $('#perizinanModal'+id_umkm).on('hidden.bs.modal', function () {
             $('#modal-umkm_perizinan'+id_umkm).modal('show');
-            $('#infoModal'+id_umkm).off('hidden.bs.modal');
+            $('#perizinanModal'+id_umkm).off('hidden.bs.modal');
             getFileUmkmById(id_umkm)
         });
     }
@@ -1017,62 +980,32 @@
     function editPerizinanUMKM(id_umkm){
         const formData = new FormData(document.getElementById('form-umkm_perizinan'+id_umkm));
         const edit = document.getElementById('edit'+id_umkm).value
-        // const foto_nib = formData.get('foto_nib')
-        // const foto_ktp = formData.get('foto_ktp')
-        // const foto_kk = formData.get('foto_kk')
-        // let errorMessage = '';
-
-        // var formFile = new FormData(document.getElementById('upload_form'+id_umkm));
-        // var inputs = form.querySelectorAll('input, select');
-        // var formData2 = new FormData();
         var errorMessages = [];
         var is_valid = true;
 
-        // inputs.forEach(function(input) {
-        //     if (input.type === 'file') {
-        //         console.log(input.files.length)
-        //         if (input.files.length === 0) {
-        //             alert('Please select a file for ' + input.name);
-        //             isValid = false;
-        //             return false;
-        //         } else {
-        //             formData2.append(input.name, input.files[0]);
-        //         }
-        //     }
-        // })
+        var is_verifikasi = document.getElementById('is_verifikasi'+id_umkm).value;
 
-        // if (foto_nib == "" || foto_nib == null || foto_nib == "null" ) {
-        //     errorMessage += '<p>Wajib Upload Foto NIB.</p>';
-        // }
-        // if (foto_ktp.name == "") {
-        //     errorMessage += '<p>Wajib Upload Foto KTP.</p>';
-        // }
-        // if (foto_kk.name == "") {
-        //     errorMessage += '<p>Wajib Upload Foto KK.</p>';
-        // }
-        var numberOfFiles = document.getElementById('num_files'+id_umkm).value;
-
-        if(numberOfFiles === "null" || numberOfFiles === null || numberOfFiles === ""){
+        if(is_verifikasi === "null" || is_verifikasi === null || is_verifikasi === ""){
             is_valid = false
-            errorMessages.push('Wajib Upload ' + (i + 1) + ' dokumen.');
+            errorMessages.push('Mohon isi catatan verifikasi');
         }
 
-        for (var i = 0; i < numberOfFiles; i++) {
-            var fileInput = document.getElementById('file'+id_umkm+'_'+i);
-            var descriptionInput = document.getElementById('description'+id_umkm+'_'+i);
-            var fileId = document.getElementById('file_umkm_id'+id_umkm+'_'+i);
+        // for (var i = 0; i < numberOfFiles; i++) {
+        //     var fileInput = document.getElementById('file'+id_umkm+'_'+i);
+        //     var descriptionInput = document.getElementById('description'+id_umkm+'_'+i);
+        //     var fileId = document.getElementById('file_umkm_id'+id_umkm+'_'+i);
 
-            if (!fileInput.value && !fileId.value) {
-                is_valid = false;
-                errorMessages.push('Semua File ' + (i + 1) + ' wajib diupload.');
-            }
+        //     if (!fileInput.value && !fileId.value) {
+        //         is_valid = false;
+        //         errorMessages.push('Semua File ' + (i + 1) + ' wajib diupload.');
+        //     }
 
-            if (!descriptionInput.value) {
-                is_valid = false;
-                errorMessages.push('Keterangan File ' + (i + 1) + ' wajib diisi.');
-            }
+        //     if (!descriptionInput.value) {
+        //         is_valid = false;
+        //         errorMessages.push('Keterangan File ' + (i + 1) + ' wajib diisi.');
+        //     }
             
-        }
+        // }
 
 
 
@@ -1083,15 +1016,15 @@
 
             // console.log(JSON.stringify(formData))
             // console.log("FORM FILE"+JSON.stringify(formData))
-            for (var i = 0; i < numberOfFiles; i++) {
-                var fileInput = document.getElementById('file'+id_umkm+'_'+i);
-                var descriptionInput = document.getElementById('description'+id_umkm+'_'+i);
-                var fileId = document.getElementById('file_umkm_id'+id_umkm+'_'+i);
+            // for (var i = 0; i < numberOfFiles; i++) {
+            //     var fileInput = document.getElementById('file'+id_umkm+'_'+i);
+            //     var descriptionInput = document.getElementById('description'+id_umkm+'_'+i);
+            //     var fileId = document.getElementById('file_umkm_id'+id_umkm+'_'+i);
 
-                formData.append('files[]', fileInput.files[0]);
-                formData.append('descriptions[]', descriptionInput.value);
-                formData.append('file_umkm_ids[]', fileId.value);
-            }
+            //     formData.append('files[]', fileInput.files[0]);
+            //     formData.append('descriptions[]', descriptionInput.value);
+            //     formData.append('file_umkm_ids[]', fileId.value);
+            // }
 
             formData.append('umkm_id',id_umkm)
             formData.append('role_id',<?php echo $user['role_id']?>)
@@ -1102,7 +1035,7 @@
 
             $('#loading').show();
             $.ajax({
-                url: '<?php echo base_url(); ?>admin/editPerizinanUMKM/'+id_umkm,
+                url: '<?php echo base_url(); ?>admin/verifPerizinan',
                 method: 'POST',
                 data: formData,
                 dataType: 'json',
@@ -1190,29 +1123,35 @@
     function getFileUmkmById(id_umkm){
         console.log(id_umkm)
         $.ajax({
-            url: '<?php echo base_url(); ?>admin/getFileUmkmById',
+            url: '<?php echo base_url(); ?>koordinator/getFileUmkmById',
             method: 'POST',
             data: {umkm_id : id_umkm},
             dataType: 'json',
             success: function(response) {
-
+                console.log(response.length)
+                let fileInputsContainer = document.getElementById('file_inputs_container'+id_umkm);
                 if(response.length > 0){
-                    document.getElementById('num_files'+id_umkm).value = response.length;
-                    document.getElementById('edit'+id_umkm).value = 1;
-                    var fileInputsContainer = document.getElementById('file_inputs_container'+id_umkm);
-                    for (var i = 0; i < response.length; i++) {
+                    // document.getElementById('num_files'+id_umkm).value = response.length;
+                    // document.getElementById('edit'+id_umkm).value = 1;
+
+                    for (let i = 0; i < response.length; i++) {
                         console.log(response[i]["path_file"])
-                        var fileInputDiv = document.createElement('div');
+                        let fileInputDiv = document.createElement('div');
                         fileInputDiv.innerHTML = `
                             <input type="hidden" name="file_umkm_ids[]" id="file_umkm_id${id_umkm}_${i}" value="${response[i]["file_umkm_id"]}"></input>
-                            <label for="file${id_umkm}_${i}">File ${i + 1}:</label>
-                            <input type="file" name="files[]" id="file${id_umkm}_${i}" onchange="previewImageEdit(this, ${i},${id_umkm},${response[i]["file_umkm_id"]})" required><br>
                             <label for="description${id_umkm}_${i}">Keterangan ${i + 1}:</label>
                             <input type="text" name="descriptions[]" id="description${id_umkm}_${i}" value ="${response[i]["keterangan"]}" required><br>
                             <img id="preview${id_umkm}_${i}" src="<?php echo base_url(); ?>${response[i]["path_file"]}" alt="Image Preview" style="max-width: 200px; margin-top: 10px;"><br><br>
                         `;
                         fileInputsContainer.appendChild(fileInputDiv);
                     }
+                }
+                if(response.length === 0){
+                    let fileInputDiv = document.createElement('div');
+                    fileInputDiv.innerHTML = `
+                    <p style="color:red;">BELUM ADA DOKUMEN PERIZINAN YANG DIUPLOAD</p>
+                    `;
+                    fileInputsContainer.appendChild(fileInputDiv);
                 }
             }
         });
