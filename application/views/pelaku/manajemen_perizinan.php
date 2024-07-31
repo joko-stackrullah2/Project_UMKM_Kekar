@@ -1,9 +1,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-
     <div class="row">
         <div class="col-lg-6">
             <?= form_error('menu', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
@@ -109,20 +107,9 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-
-
         </div>
     </div>
-
-
-
 </div>
-<!-- /.container-fluid -->
-
-</div>
-
-
-
 
 <div class="modal fade" id="modal-manajemen_perizinan" tabindex="-1" role="dialog" aria-labelledby="modal-manajemen_perizinan-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
