@@ -303,5 +303,74 @@ class Pelaku extends CI_Controller
                 echo json_encode(array('error' => 'Gagal menghapus Produk.'));
             }
         }
+
+
+    
+
+
+         //MANAJEMEN PERIZINAN - PELAKU UMKM
+
+         public function view_manajemen_dok_perizinan()
+         {
+             $data['title'] = 'Manajemen Perizinan UMKM';
+             $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+     
+             $data['dataFileUMKM'] = $this->perizinan_umkm_m->getFileUmkmByUserId($data['user']['id']);
+     
+             $this->load->view('templates/header', $data);
+             $this->load->view('templates/sidebar', $data);
+             $this->load->view('templates/topbar', $data);
+             $this->load->view('pelaku/manajemen_perizinan', $data);
+             $this->load->view('templates/footer');
+         }
+     
+        //  public function newProduk()
+        //  {
+        //      $data = [
+        //          'nama_produk' => htmlspecialchars($this->input->post('nama_produk', true)),
+        //          'deskripsi_produk' => htmlspecialchars($this->input->post('deskripsi_produk', true)),
+        //          'harga_produk' => htmlspecialchars($this->input->post('harga_produk', true)),
+        //          'stok_produk' => htmlspecialchars($this->input->post('stok_produk', true)),
+        //          'id_umkm' =>  htmlspecialchars($this->input->post('umkm', true)),
+        //      ];
+     
+        //      $insert = $this->produk_m->newProduk($data);
+        //      if ($insert) {
+        //          echo json_encode(array('success' => 'Tambah Produk Berhasil.'));
+        //      } else {
+        //          echo json_encode(array('error' => 'Tambah Produk Gagal.'));
+        //      }
+        //  }
+     
+        //  public function editProduk()
+        //  {
+        //      $id_produk = htmlspecialchars($this->input->post('id_produk', true));
+     
+        //      $data = [
+        //          'nama_produk' => htmlspecialchars($this->input->post('nama_produk', true)),
+        //          'deskripsi_produk' => htmlspecialchars($this->input->post('deskripsi_produk', true)),
+        //          'harga_produk' => htmlspecialchars($this->input->post('harga_produk', true)),
+        //          'stok_produk' => htmlspecialchars($this->input->post('stok_produk', true)),
+        //          'id_umkm' => htmlspecialchars($this->input->post('umkm', true))
+        //      ];
+     
+        //      $edit = $this->produk_m->editProduk($data,$id_produk);
+        //      if ($edit) {
+        //          echo json_encode(array('success' => 'Edit Produk Berhasil.'));
+        //      } else {
+        //          echo json_encode(array('error' => 'Edit Produk Gagal.'));
+        //      }
+        //  }
+     
+        //  public function deleteProduk()
+        //  {
+        //      $data = ['id_produk' => htmlspecialchars($this->input->post('id_produk', true))];
+        //      $delete = $this->produk_m->deleteProduk($data);
+        //      if ($delete) {
+        //          echo json_encode(array('success' => 'Berhasil menghapus Produk.'));
+        //      } else {
+        //          echo json_encode(array('error' => 'Gagal menghapus Produk.'));
+        //      }
+        //  }
 }
 ?>

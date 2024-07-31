@@ -106,6 +106,31 @@ class Perizinan_umkm_m extends CI_Model
         return $query->result_array();
     }
 
+    public function getFileUmkmByUserId($id)
+    {
+        $query = "SELECT
+        a.file_umkm_id,
+        a.path_file,
+        a.keterangan,
+        b.nama_umkm,
+        c.jenis_usaha,
+        d.nama nama_pemilik_umkm ,
+        CASE 
+            WHEN b.is_verifikasi = 0 THEN 'TERTOLAK'
+            WHEN b.is_verifikasi IS NULL THEN 'BELUM DIVERIFIKASI'
+            WHEN b.is_verifikasi = 1 THEN 'TERVERIFIKASI'
+            ELSE ''
+        END is_verifikasi
+    FROM
+        file_umkm a
+        LEFT JOIN m_umkm b ON a.umkm_id = b.id_umkm
+        LEFT JOIN m_jenis_usaha c ON b.jenis_usaha_id = c.jenis_usaha_id
+        LEFT JOIN USER d ON b.pelaku_umkm_id = d.id 
+    WHERE
+        d.id = $id";
+        return $this->db->query($query)->result_array();
+    }
+
     // Function to update file data in the database
     public function update_file_data($fileId, $fileData)
     {
