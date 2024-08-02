@@ -35,72 +35,29 @@
                             <td><?= $r['path_file']; ?></td>
                             <td><?= $r['is_verifikasi']; ?></td>
                             <td>
-                                <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-produk_delete<?= $r['file_umkm_id']; ?>">Delete</a>
+                                <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-dokumen_delete<?= $r['file_umkm_id']; ?>">Delete</a>
                             </td>
                         </tr>
 
-                        <!-- <div class="modal fade" id="modal-produk_edit_<?= $r['id_produk']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal-produk_edit_label" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modal-produk_edit_label">Edit Data Produk</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div id="message<?= $r['id_produk']; ?>" class="mt-3"></div>
-                                    <form>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <select name="umkm" id="umkm<?= $r['id_produk']; ?>" class="form-control">
-                                                    <?php
-                                                    foreach($listUMKMPelaku as $key => $data) { 
-                                                        $select = ($r['id_umkm'] == $data['id_umkm'])? "selected = 'selected'":"";?>
-                                                        <option value="<?php echo $data['id_umkm']; ?>"  <?php echo $select; ?>><?php echo $data['nama_pelaku_umkm']; ?> - <?php echo $data['nama_umkm']; ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="nama_produk<?= $r['id_produk']; ?>" value="<?= $r['nama_produk']; ?>" name="nama_produk" placeholder="Nama Produk">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="deskripsi_produk<?= $r['id_produk']; ?>" value="<?= $r['deskripsi_produk']; ?>" name="deskripsi_produk" placeholder="Deskripsi Produk">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="harga_produk<?= $r['id_produk']; ?>" value="<?= $r['harga_produk']; ?>" name="harga_produk" placeholder="Harga Produk">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="stok_produk<?= $r['id_produk']; ?>" value="<?= $r['stok_produk']; ?>" name="stok_produk" placeholder="Stok Produk">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" onclick="editProduk(<?= $r['id_produk']; ?>)">Edit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal fade" id="modal-produk_delete<?= $r['id_produk']; ?>" tabindex="-1" aria-labelledby="modal-produk_delete-label" aria-hidden="true">
+                        <div class="modal fade" id="modal-dokumen_delete<?= $r['file_umkm_id']; ?>" tabindex="-1" aria-labelledby="modal-dokumen_delete-label" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modal-produk_delete-label">Konfirmasi Hapus Data</h5>
+                                        <h5 class="modal-title" id="modal-dokumen_delete-label">Konfirmasi Hapus Data</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        Apakah anda yakin untuk menghapus Produk ini ? 
+                                        Apakah anda yakin untuk menghapus Dokumen Ini ? 
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        <button type="button" class="btn btn-danger" id="deleteBtn" onclick="deleteProduk(<?= $r['id_produk']; ?>)">Delete</button>
+                                        <button type="button" class="btn btn-danger" id="deleteBtn" onclick="deleteDokumen(<?= $r['file_umkm_id']; ?>,'<?= $r['path_file']; ?>')">Delete</button>
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div> 
 
                     <?php $i++; ?>
                     <?php endforeach; ?>
@@ -249,31 +206,6 @@
         }
     }
 
-    function deleteProduk(id_produk){
-        console.log(id_produk)
-        $('#loading').show();
-        $.ajax({
-                url: '<?php echo base_url(); ?>pelaku/deleteProduk',
-                method: 'POST',
-                data: { id_produk : id_produk },
-                success: function(response) {
-                    let result = JSON.parse(response);
-                    console.log(result)
-                    if(result.error) {
-                        $('#loading').hide();
-                        $('#message'+id_produk).html('<div class="alert alert-danger">' + result.error + '</div>');
-                    } else {
-                        $('#loading').hide();
-                        $('#message'+id_produk).html('<div class="alert alert-success">' + result.success + '</div>');
-                        window.location.reload();  // Refresh the page
-                    }
-                },
-                error: function() {
-                    alert('Terjadi kesalahan, hubungi tim IT.');
-                }
-            });
-    }
-
     function updateCustomData() {
         let dropdown = document.getElementById("umkm");
         let selectedOption = dropdown.options[dropdown.selectedIndex];
@@ -322,5 +254,33 @@
             }
             reader.readAsDataURL(file);
         }
+    }
+
+    function deleteDokumen(file_umkm_id,file_path){
+        console.log(`<?php echo base_url(); ?>${file_path}`)
+        $('#loading').show();
+        $.ajax({
+            url: '<?php echo base_url(); ?>pelaku/deleteDokumen',
+            method: 'POST',
+            data: { 
+                file_umkm_id : file_umkm_id,
+                file_path : file_path
+            },
+            success: function(response) {
+                let result = JSON.parse(response);
+                console.log(result)
+                if(result.error) {
+                    $('#loading').hide();
+                    $('#message'+file_umkm_id).html('<div class="alert alert-danger">' + result.error + '</div>');
+                } else {
+                    $('#loading').hide();
+                    $('#message'+file_umkm_id).html('<div class="alert alert-success">' + result.success + '</div>');
+                    window.location.reload();  // Refresh the page
+                }
+            },
+            error: function() {
+                alert('Terjadi kesalahan, hubungi tim IT.');
+            }
+        });
     }
 </script>

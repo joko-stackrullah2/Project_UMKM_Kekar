@@ -308,28 +308,28 @@ class Pelaku extends CI_Controller
     
 
 
-         //MANAJEMEN PERIZINAN - PELAKU UMKM
+        //MANAJEMEN PERIZINAN - PELAKU UMKM
 
-         public function view_manajemen_dok_perizinan()
-         {
-             $data['title'] = 'Manajemen Perizinan UMKM';
-             $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        public function view_manajemen_dok_perizinan()
+        {
+            $data['title'] = 'Manajemen Perizinan UMKM';
+            $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+    
+            $data['dataFileUMKM'] = $this->perizinan_umkm_m->getFileUmkmByUserId($data['user']['id']);
+            $data['listUMKMPelaku'] = $this->perizinan_umkm_m->getUMKMPelaku($data['user']['id']);
+    
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('pelaku/manajemen_perizinan', $data);
+            $this->load->view('templates/footer');
+        }
      
-             $data['dataFileUMKM'] = $this->perizinan_umkm_m->getFileUmkmByUserId($data['user']['id']);
-             $data['listUMKMPelaku'] = $this->perizinan_umkm_m->getUMKMPelaku($data['user']['id']);
-     
-             $this->load->view('templates/header', $data);
-             $this->load->view('templates/sidebar', $data);
-             $this->load->view('templates/topbar', $data);
-             $this->load->view('pelaku/manajemen_perizinan', $data);
-             $this->load->view('templates/footer');
-         }
-     
-         public function newDokumenPerizinan()
-         {
+        public function newDokumenPerizinan()
+        {
             $umkm = htmlspecialchars($this->input->post('umkm', true));
             $tanggal_upload = date("Y-m-d H:i:s");
-    
+
             $this->load->library('upload');
             $files = $_FILES;
             $descriptions = $this->input->post('descriptions');
@@ -342,9 +342,9 @@ class Pelaku extends CI_Controller
                 $_FILES['file']['tmp_name'] = $files['files']['tmp_name'][$i];
                 $_FILES['file']['error'] = $files['files']['error'][$i];
                 $_FILES['file']['size'] = $files['files']['size'][$i];
-    
+
                 $this->upload->initialize($this->set_upload_options());
-    
+
                 if ($this->upload->do_upload('file')) {
                 $data = $this->upload->data();
                 $fileData = array(
@@ -374,6 +374,23 @@ class Pelaku extends CI_Controller
                     )
                 );
             }
-         }
+        }
+
+        public function deleteDokumen()
+        {
+            $file_umkm_id = ['file_umkm_id' => htmlspecialchars($this->input->post('file_umkm_id', true))];
+            $file_path = FCPATH.htmlspecialchars($this->input->post('file_path', true));
+            $delete = $this->perizinan_umkm_m->deleteDokumen($file_umkm_id);
+
+            if (file_exists($file_path)) {
+                if (unlink($file_path) && $delete) {
+                    echo json_encode(array('success' => 'Berhasil menghapus File.'));
+                } else {
+                    echo json_encode(array('error' => 'Gagal menghapus File.'));
+                }
+            } else {
+                echo json_encode(array('error' => 'File Tidak ditemukan.'));
+            }
+        }
 }
 ?>

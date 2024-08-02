@@ -147,4 +147,9 @@ class Perizinan_umkm_m extends CI_Model
         $this->db->update('file_umkm', $fileData);
     }
 
+
+    public function deleteDokumen($data) {
+        return $this->db->delete('file_umkm', $data);
+    }
+
 }
