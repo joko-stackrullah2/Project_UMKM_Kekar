@@ -43,7 +43,7 @@
                                         Pilih hak akses sebagai...
                                     </option>
                                     <?php
-                                    foreach($list_hak_akses as $key => $data) { 
+                                    foreach($list_hak_akses_register as $key => $data) { 
                                         // $select = (isset($data_pendaftar) && $data_pendaftar['wali_murid_id'] == $data_wali[$key]['wali_murid_id'] )?"selected = 'selected'":"";?>
                                         <option value="<?php echo $data['role_id']; ?>" ><?php echo $data['role']; ?></option>
                                     <?php } ?>

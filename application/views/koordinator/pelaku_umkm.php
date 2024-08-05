@@ -118,7 +118,8 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <select name="desa" id="desa<?= $r['id']; ?>" class="form-control">
+                                            <input type="text" class="form-control" id="desa" name="desa" placeholder="Desa" value="<?php echo $user['desa']; ?>" disabled>
+                                            <!-- <select name="desa" id="desa<?= $r['id']; ?>" class="form-control">
                                                 <option selected="selected" value="">
                                                     Pilih Desa...
                                                 </option>
@@ -127,7 +128,7 @@
                                                     $select = ($r['desa_id'] == $data['desa_id'])? "selected = 'selected'":"";?>
                                                     <option value="<?php echo $data['desa_id']; ?>"  <?php echo $select; ?>><?php echo $data['desa']; ?></option>
                                                 <?php } ?>
-                                            </select>
+                                            </select> -->
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -248,7 +249,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <select name="desa" id="desa" class="form-control">
+                        <input type="text" class="form-control" id="desa" name="desa" placeholder="Desa" value="<?php echo $user['desa']; ?>" disabled>
+                        <!-- <select name="desa" id="desa" class="form-control">
                             <option selected="selected" value="">
                                 Pilih desa...
                             </option>
@@ -257,7 +259,7 @@
                                 // $select = (isset($data_pendaftar) && $data_pendaftar['wali_murid_id'] == $data_wali[$key]['wali_murid_id'] )?"selected = 'selected'":"";?>
                                 <option value="<?php echo $data['desa_id']; ?>" ><?php echo $data['desa']; ?></option>
                             <?php } ?>
-                        </select>
+                        </select> -->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -284,7 +286,7 @@
         var password1 = $('#password1').val();
         var password2 = $('#password2').val();
         var role = $('#role').val();
-        var desa = $('#desa').val();
+        var desa = "<?php echo $user['desa_id']; ?>"
         var errorMessage = '';
 
         function validateEmail(email) {
@@ -313,9 +315,6 @@
         }
         if (role == '') {
             errorMessage += '<p>Wajib Memilih hak Akses.</p>';
-        }
-        if (desa == '') {
-            errorMessage += '<p>Wajib Memilih Desa.</p>';
         }
 
         if (errorMessage != '') {
@@ -362,7 +361,7 @@
         var alamat = $('#alamat'+pelaku_id).val();
         var no_telepon = $('#no_telepon'+pelaku_id).val();
         var role = $('#role'+pelaku_id).val();
-        var desa = $('#desa'+pelaku_id).val();
+        var desa = "<?php echo $user['desa_id']; ?>"
         var errorMessage = '';
 
         function validateEmail(email) {
@@ -387,11 +386,6 @@
 
         if (role == '') {
             errorMessage += '<p>Wajib Memilih hak Akses.</p>';
-        }
-
-        
-        if (desa == '') {
-            errorMessage += '<p>Wajib Memilih Desa.</p>';
         }
 
         console.log(errorMessage)

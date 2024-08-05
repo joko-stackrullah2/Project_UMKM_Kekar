@@ -21,8 +21,9 @@ class Koordinator extends CI_Controller
     public function view_pelaku_umkm()
     {
         $data['title'] = 'Pelaku UMKM';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['list_hak_akses'] = $this->hak_akses_m->getAllListHakAkses();
+        // $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->hak_akses_m->getDataUser($this->session->userdata('email'));
+        $data['list_hak_akses'] = $this->hak_akses_m->getListHakAksesForRegister();
         $data['list_desa'] = $this->desa_m->getAllListDesa();
         $data['pelaku'] = $this->pelaku_umkm_m->getAllPelakuUMKMKoordinator($data['user']['desa_id']);
 
@@ -123,7 +124,7 @@ class Koordinator extends CI_Controller
         $data['title'] = 'Manajemen Perizinan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-        $data['data_umkm'] = $this->perizinan_umkm_m->getUMKM();
+        $data['data_umkm'] = $this->perizinan_umkm_m->getUMKMForKoordinator($data['user']['desa_id']);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);

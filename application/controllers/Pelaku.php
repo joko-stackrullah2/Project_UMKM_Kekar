@@ -101,7 +101,7 @@ class Pelaku extends CI_Controller
         // upload preferences
         $config = array();
         $config['upload_path'] = './assets/img/perizinan/';
-        $config['allowed_types'] = 'gif|jpg|png|pdf|doc|docx';
+        $config['allowed_types'] = 'gif|jpg|png|pdf|doc|docx|jpeg';
         $config['max_size'] = '0'; // 0 means no limit
         $config['overwrite'] = FALSE;
 
@@ -349,6 +349,7 @@ class Pelaku extends CI_Controller
                 $data = $this->upload->data();
                 $fileData = array(
                     'nama_file' => $data['file_name'],
+                    'tipe_file' => $data['file_type'],
                     'path_file' => "assets/img/perizinan/".$data['file_name'],
                     'keterangan' => $descriptions[$i],
                     'umkm_id' => $umkm,

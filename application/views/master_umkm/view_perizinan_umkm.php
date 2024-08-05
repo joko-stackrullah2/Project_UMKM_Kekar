@@ -21,8 +21,10 @@
                         <th width="35%" scope="col">Email UMKM</th>
                         <th width="35%" scope="col">No Telepon UMKM</th>
                         <th width="35%" scope="col">Alamat UMKM</th>
+                        <th width="35%" scope="col">Desa</th>
                         <th width="35%" scope="col">Tanggal Pendirian</th>
                         <th width="35%" scope="col">Jenis Usaha</th>
+                        
                         <!-- <th width="35%" scope="col">Status Verif</th> -->
                         <th scope="col">Action</th>
                     </tr>
@@ -37,6 +39,7 @@
                         <td><?= $r['email_umkm']; ?></td>
                         <td><?= $r['telepon_umkm']; ?></td>
                         <td><?= $r['alamat_umkm']; ?></td>
+                        <td><?= $r['desa']; ?></td>
                         <td><?= $r['tanggal_pendirian']; ?></td>
                         <td><?= $r['jenis_usaha']; ?></td>
                         <!-- <td><?= $r['status_verifikasi']; ?></td> -->

@@ -72,7 +72,7 @@ class Auth extends CI_Controller
 
     public function view_registration(){
         $data['title'] = 'User Registration';
-        $data['list_hak_akses'] = $this->hak_akses_m->getAllListHakAkses();
+        $data['list_hak_akses_register'] = $this->hak_akses_m->getListHakAksesForRegister();
         $data['list_desa'] = $this->desa_m->getAllListDesa();
         $this->load->view('templates/auth_header', $data);
         $this->load->view('auth/view_registration',$data);

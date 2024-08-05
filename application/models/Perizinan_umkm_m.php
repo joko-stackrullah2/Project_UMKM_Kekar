@@ -9,6 +9,7 @@ class Perizinan_umkm_m extends CI_Model
                 a.*,
                 b.nama nama_pelaku_umkm,
                 c.jenis_usaha AS jenis_usaha,
+                d.desa,
                 CASE
                     WHEN is_verifikasi = 1 THEN 'DITERIMA'
                     WHEN is_verifikasi = 0 THEN 'DITOLAK'
@@ -18,7 +19,31 @@ class Perizinan_umkm_m extends CI_Model
             FROM
                 m_umkm a
                 LEFT JOIN USER b ON a.pelaku_umkm_id = b.id
-                LEFT JOIN m_jenis_usaha c ON a.jenis_usaha_id = c.jenis_usaha_id";
+                LEFT JOIN m_jenis_usaha c ON a.jenis_usaha_id = c.jenis_usaha_id
+                LEFT JOIN m_desa d ON b.desa_id = d.desa_id";
+        return $this->db->query($query)->result_array();
+    }
+
+    public function getUMKMForKoordinator($desa_id)
+    {
+        $query = "SELECT
+                a.*,
+                b.nama nama_pelaku_umkm,
+                c.jenis_usaha AS jenis_usaha,
+                d.desa,
+                CASE
+                    WHEN is_verifikasi = 1 THEN 'DITERIMA'
+                    WHEN is_verifikasi = 0 THEN 'DITOLAK'
+                    WHEN is_verifikasi IS NULL THEN 'BELUM MENGAJUKAN'
+                    ELSE is_verifikasi
+                END status_verifikasi
+            FROM
+                m_umkm a
+                LEFT JOIN USER b ON a.pelaku_umkm_id = b.id
+                LEFT JOIN m_jenis_usaha c ON a.jenis_usaha_id = c.jenis_usaha_id
+                LEFT JOIN m_desa d ON b.desa_id = d.desa_id
+            WHERE b.desa_id = '$desa_id'"
+            ;
         return $this->db->query($query)->result_array();
     }
 
@@ -111,10 +136,13 @@ class Perizinan_umkm_m extends CI_Model
         $query = "SELECT
         a.file_umkm_id,
         a.path_file,
+        a.tipe_file,
         a.keterangan,
         b.nama_umkm,
         c.jenis_usaha,
-        d.nama nama_pemilik_umkm ,
+        d.nama nama_pemilik_umkm,
+        b.catatan_verifikasi,
+        e.desa,
         CASE 
             WHEN b.is_verifikasi = 0 THEN 'TERTOLAK'
             WHEN b.is_verifikasi IS NULL THEN 'BELUM DIVERIFIKASI'
@@ -126,6 +154,7 @@ class Perizinan_umkm_m extends CI_Model
         LEFT JOIN m_umkm b ON a.umkm_id = b.id_umkm
         LEFT JOIN m_jenis_usaha c ON b.jenis_usaha_id = c.jenis_usaha_id
         LEFT JOIN USER d ON b.pelaku_umkm_id = d.id 
+        LEFT JOIN m_desa e ON d.desa_id = e.desa_id 
     WHERE
         d.id = $id";
         return $this->db->query($query)->result_array();

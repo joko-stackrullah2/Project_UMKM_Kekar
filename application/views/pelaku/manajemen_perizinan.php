@@ -1,4 +1,12 @@
 <!-- Begin Page Content -->
+<style>
+
+        #preview {
+            margin-top: 20px;
+            width: 100%;
+            height: 600px;
+        }
+    </style>
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
@@ -10,16 +18,19 @@
 
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-manajemen_perizinan">Upload Dokumen Perizinan</a>
 
-            <table class="table table-hover">
+            <table class="table table-hover" id="tabel-manajemen_perizinan">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Pemilik UMKM</th>
                         <th scope="col">Nama UMKM</th>
                         <th scope="col">Jenis Usaha</th>
-                        <th scope="col">Keterangan</th>
-                        <th scope="col">Foto</th>
+                        <th scope="col">Desa</th>
+                        <th scope="col">Keterangan File</th>
+                        <th scope="col">File</th>
+                        <th scope="col">Tipe File</th>
                         <th scope="col">Verifikasi Admin</th>
+                        <th scope="col">Catatan Admin</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -31,9 +42,12 @@
                             <td><?= $r['nama_pemilik_umkm']; ?></td>
                             <td><?= $r['nama_umkm']; ?></td>
                             <td><?= $r['jenis_usaha']; ?></td>
+                            <td><?= $r['desa']; ?></td>
                             <td><?= $r['keterangan']; ?></td>
-                            <td><?= $r['path_file']; ?></td>
+                            <td><button onclick="previewFile('<?= $r['path_file']; ?>', '<?= $r['tipe_file']; ?>')">Preview</button></td>
+                            <td><?= $r['tipe_file']; ?></td>
                             <td><?= $r['is_verifikasi']; ?></td>
+                            <td><?= $r['catatan_verifikasi']; ?></td>
                             <td>
                                 <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-dokumen_delete<?= $r['file_umkm_id']; ?>">Delete</a>
                             </td>
@@ -126,8 +140,24 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
-
+<div id="preview-container" style="display:none;">
+    <iframe id="preview" src=""></iframe>
+</div>
 <script>
+
+    function previewFile(filePath, fileType) {
+        const previewContainer = document.getElementById('preview-container');
+        const preview = document.getElementById('preview');
+
+        // if (fileType.includes('image')) {
+        //     previewContainer.style.display = 'block';
+        //     preview.src = '<?php echo base_url(); ?>'+filePath;
+        // } else {
+        previewContainer.style.display = 'none';
+        window.location.href = '<?php echo base_url(); ?>'+filePath;
+        // }
+    }
+
     function newDokumenPerizinan(){
         const formData = new FormData(document.getElementById('form-manajemen_perizinan'));
         let errorMessages = [];
