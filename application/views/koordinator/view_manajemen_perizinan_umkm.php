@@ -796,6 +796,10 @@
     </div>
 </div>
 
+<div id="preview-container" style="display:none;">
+    <iframe id="preview" src=""></iframe>
+</div>
+
 <script>
     function showSecondModal(id_umkm) {
         $('#perizinanModal'+id_umkm).modal('hide');
@@ -1122,6 +1126,19 @@
         }
     }
 
+    function previewFile(filePath, fileType) {
+        const previewContainer = document.getElementById('preview-container');
+        const preview = document.getElementById('preview');
+
+        // if (fileType.includes('image')) {
+        //     previewContainer.style.display = 'block';
+        //     preview.src = '<?php echo base_url(); ?>'+filePath;
+        // } else {
+        previewContainer.style.display = 'none';
+        window.location.href = '<?php echo base_url(); ?>'+filePath;
+        // }
+    }
+
     function getFileUmkmById(id_umkm){
         console.log(id_umkm)
         $.ajax({
@@ -1138,14 +1155,24 @@
 
                     for (let i = 0; i < response.length; i++) {
                         console.log(response[i]["path_file"])
-                        let fileInputDiv = document.createElement('div');
-                        fileInputDiv.innerHTML = `
+                        if(response[i]["tipe_file"].includes("image")){
+                            let fileInputDiv = document.createElement('div');
+                            fileInputDiv.innerHTML = `
                             <input type="hidden" name="file_umkm_ids[]" id="file_umkm_id${id_umkm}_${i}" value="${response[i]["file_umkm_id"]}"></input>
                             <label for="description${id_umkm}_${i}">Keterangan ${i + 1}:</label>
                             <input type="text" name="descriptions[]" id="description${id_umkm}_${i}" value ="${response[i]["keterangan"]}" required><br>
                             <img id="preview${id_umkm}_${i}" src="<?php echo base_url(); ?>${response[i]["path_file"]}" alt="Image Preview" style="max-width: 200px; margin-top: 10px;"><br><br>
-                        `;
-                        fileInputsContainer.appendChild(fileInputDiv);
+                            `;
+                            fileInputsContainer.appendChild(fileInputDiv);
+                        }else{
+                            let fileInputDiv = document.createElement('div');
+                            fileInputDiv.innerHTML = `
+                            <input type="hidden" name="file_umkm_ids[]" id="file_umkm_id${id_umkm}_${i}" value="${response[i]["file_umkm_id"]}"></input>
+                            <label for="description${id_umkm}_${i}">Keterangan ${i + 1}:</label>
+                            <input type="text" name="descriptions[]" id="description${id_umkm}_${i}" value ="${response[i]["keterangan"]}" required><br>
+                            <button id="btn-download${id_umkm}_${i}" type="button" class="btn btn-primary" onclick="previewFile('${response[i]["path_file"]}' , '${response[i]["tipe_file"]}')">Preview</button>`;
+                            fileInputsContainer.appendChild(fileInputDiv);
+                        }
                     }
                 }
                 if(response.length === 0){

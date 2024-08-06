@@ -78,6 +78,10 @@
                         <td><?= $r['role']; ?></td>
                         <td>
                             <a href="" class="badge badge-success" data-toggle="modal" data-target="#modal-pelaku_umkm_edit_<?= $r['id']; ?>">edit</a>
+                            <!-- <?php
+                            if ($fileType == 'image'): ?>
+                                <button onclick="previewFile('<?php echo $uploadDir . $file; ?>', 'image')">Preview</button>
+                            <?php endif; ?> -->
                             <button class="badge badge-warning" type="button" onclick="showIdentityCard('<?php echo htmlspecialchars(json_encode($r), ENT_QUOTES, 'UTF-8'); ?>')">Cetak Kartu Anggota</button>
                             <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-pelaku_umkm_delete<?= $r['id']; ?>">Delete</a>
                         </td>

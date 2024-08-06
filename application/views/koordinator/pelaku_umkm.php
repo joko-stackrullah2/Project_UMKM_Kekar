@@ -453,7 +453,9 @@
 
     function showIdentityCard(dataPelakuJson) {
             // Fetch user data (example data here, replace with dynamic data fetching)
+            
             var dataPelaku = JSON.parse(dataPelakuJson);
+            console.log(dataPelaku.image)
             var user = {
                 id: dataPelaku.id,
                 nama_lengkap: dataPelaku.nama,
@@ -475,7 +477,7 @@
                 <div class="field"><span>No.Telepon:</span> ${user.no_telepon}</div>
                 <div class="field"><span>Role:</span> ${user.role}</div>
                 <div class="photo">
-                    <img src="assets/img/profile/${user.image}" alt="User Photo">
+                    <img src="<?php echo base_url(); ?>assets/img/profile/${user.image}" alt="User Photo">
                 </div>
             `;
 
