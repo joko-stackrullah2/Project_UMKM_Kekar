@@ -17,7 +17,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Jenis Usaha</th>
-                        <!-- <th scope="col">Action</th> -->
+                        <th scope="col">Syarat Perizinan</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,8 +27,9 @@
                     <tr>
                         <th scope="row"><?= $i; ?></th>
                         <td><?= $r['jenis_usaha']; ?></td>
+                        <td><?= $r['syarat_perizinan']; ?></td>
                         <td>
-                            <a href="" class="badge badge-success" data-toggle="modal" data-target="#modal-jenis_usaha_edit_<?= $r['jenis_usaha_id']; ?>">Edit</a>
+                            <button type="button" class="badge badge-success" onclick="showEditModal(<?= $r['jenis_usaha_id']; ?>)">Edit</button>
                             <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal-jenis_usaha_delete<?= $r['jenis_usaha_id']; ?>">Delete</a>
                         </td>
                     </tr>
@@ -45,8 +47,13 @@
                                 <div id="message<?= $r['jenis_usaha_id']; ?>" class="mt-3"></div>
                                 <form action="<?= base_url('admin/role'); ?>" method="post">
                                     <div class="modal-body">
+                                        <label>Nama Jenis Usaha</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="jenis_usaha<?= $r['jenis_usaha_id']; ?>" name="jenis_usaha" placeholder="Nama jenis usaha" value="<?= $r['jenis_usaha']; ?>">
+                                            <input type="text" class="form-control" id="jenis_usaha<?= $r['jenis_usaha_id']; ?>" name="jenis_usaha" value="<?= $r['jenis_usaha']; ?>">
+                                        </div>
+                                        <label>Syarat Perizinan</label>
+                                        <div class="form-group">
+                                            <textarea id="editor<?= $r['jenis_usaha_id']; ?>"><?= $r['syarat_perizinan']; ?></textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -112,8 +119,13 @@
             <div id="message" class="mt-3"></div>
             <form action="<?= base_url('admin/role'); ?>" method="post">
                 <div class="modal-body">
+                    <label>Nama Jenis Usaha</label>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="jenis_usaha" name="jenis_usaha" placeholder="Nama jenis usaha">
+                        <input type="text" class="form-control" id="jenis_usaha" name="jenis_usaha">
+                    </div>
+                    <label>Syarat Perizinan</label>
+                    <div class="form-group">
+                        <textarea id="editor"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -132,25 +144,51 @@
 </div>
 
 <script>
+    tinymce.init({
+        selector: 'textarea#editor',
+        skin: 'bootstrap',
+        plugins: 'lists, link, image, media',
+        toolbar: 'h1 h2 bold italic strikethrough blockquote numlist backcolor removeformat help',
+        menubar: false,
+    });
+
+    function showEditModal(jenis_usaha_id="") {
+        tinymce.init({
+            selector: 'textarea#editor'+jenis_usaha_id,
+            skin: 'bootstrap',
+            plugins: 'lists, link, image, media',
+            toolbar: 'h1 h2 bold italic strikethrough blockquote numlist backcolor removeformat help',
+            menubar: false,
+        });
+        $('#modal-jenis_usaha_edit_'+jenis_usaha_id).modal('show');
+    }
+
     function newOrEditJenisUsaha(tipe,jenis_usaha_id=""){
         var jenis_usaha=''
+        var syarat_perizinan=''
         var errorMessage=''
         if(tipe === 'new'){
             jenis_usaha = $('#jenis_usaha').val();
+            syarat_perizinan = tinymce.get('editor').getContent()
         }else{
             jenis_usaha = $('#jenis_usaha'+jenis_usaha_id).val();
+            syarat_perizinan = tinymce.get('editor'+jenis_usaha_id).getContent()
         }
 
         if (jenis_usaha == '') {
             errorMessage += '<p>Jenis Usaha wajib diisi.</p>';
             $('#message').html('<div class="alert alert-danger">' + errorMessage + '</div>');
-        } else {
+        }else if (syarat_perizinan == '') {
+            errorMessage += '<p>Syarat Perizinan wajib diisi.</p>';
+            $('#message').html('<div class="alert alert-danger">' + errorMessage + '</div>');
+        }else {
             $('#loading').show();
             $.ajax({
                 url: '<?php echo base_url(); ?>admin/newOrEditJenisUsaha',
                 method: 'POST',
                 data: {
                     jenis_usaha : jenis_usaha,
+                    syarat_perizinan : syarat_perizinan,
                     tipe : tipe,
                     jenis_usaha_id : jenis_usaha_id
                 },

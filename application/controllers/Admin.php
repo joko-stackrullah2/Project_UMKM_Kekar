@@ -228,7 +228,10 @@ class Admin extends CI_Controller
     {
         $tipe = htmlspecialchars($this->input->post('tipe', true));
         $jenis_usaha_id = htmlspecialchars($this->input->post('jenis_usaha_id', true));
-        $data = ['jenis_usaha' => htmlspecialchars($this->input->post('jenis_usaha', true))];
+        $data = [
+            'jenis_usaha' => htmlspecialchars($this->input->post('jenis_usaha', true)),
+            'syarat_perizinan' => htmlspecialchars($this->input->post('syarat_perizinan', true)),
+        ];
         if($tipe == 'new'){
             $insert = $this->jenis_usaha_m->newJenisUsaha($data);
             if ($insert) {

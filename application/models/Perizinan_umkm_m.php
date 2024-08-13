@@ -9,6 +9,7 @@ class Perizinan_umkm_m extends CI_Model
                 a.*,
                 b.nama nama_pelaku_umkm,
                 c.jenis_usaha AS jenis_usaha,
+                c.syarat_perizinan,
                 d.desa,
                 CASE
                     WHEN is_verifikasi = 1 THEN 'DITERIMA'
