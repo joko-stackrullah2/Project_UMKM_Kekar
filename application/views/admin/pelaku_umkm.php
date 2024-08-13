@@ -52,7 +52,7 @@
             <?= $this->session->flashdata('message'); ?>
 
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-pelaku_umkm_new">Tambah Pelaku UMKM</a>
-            <table class="table table-hover">
+            <table id="tabel-pelaku_umkm" class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">No</th>
@@ -280,6 +280,7 @@
 </div>
 
 <script>
+
     function newPelakuUMKM(){
         var nama = $('#nama').val();
         var email = $('#email').val();

@@ -106,7 +106,6 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li> -->
-          <li><a class="nav-link scrollto" href="#contact">Kontak</a></li>
           <li><a class="nav-link scrollto" href="<?= base_url('auth'); ?>">Login</a></li>
           <li><a class="nav-link scrollto" href="<?= base_url('auth/view_registration'); ?>">Daftar</a></li>
         </ul>
@@ -314,6 +313,68 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="feature-col col-lg-4 col-xs-12">
+            <div class="card card-block text-center">
+              <!-- <div>
+                <div class="feature-icon">
+                  <i class="bi bi-binoculars"></i>
+                </div>
+              </div> -->
+
+              <div>
+              <a href="#"><img src="<?= base_url('assets/'); ?>/img/REWARD.png" alt="" style="width: 200px;height: 170px;margin-bottom:10px"></a>
+                <h3 style="margin-top: 10px;">
+                Reward Bagi Pelaku UMKM
+                </h3>
+
+                <p >
+                  Pemberian Reward kepada pelaku UMKM yang melengkapi semua perizinannya.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="feature-col col-lg-4 col-xs-12">
+            <div class="card card-block text-center">
+              <div>
+                <div class="feature-icon">
+                  <i class="bi bi-brightness-high"></i>
+                </div>
+              </div>
+
+              <div>
+                <h3>
+                  Manajemen Perizinan
+                </h3>
+
+                <p>
+                  Sistem otomatis untuk mengelola perizinan yang diperlukan berdasarkan jenis usaha dan regulasi yang berlaku.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-col col-lg-4 col-xs-12">
+            <div class="card card-block text-center">
+              <div>
+                <div class="feature-icon">
+                  <i class="bi bi-calendar4-week"></i>
+                </div>
+              </div>
+
+              <div>
+                <h3>
+                  Dukungan Pelatihan dan Bimbingan
+                </h3>
+                <p>
+                  Modul pelatihan online untuk membantu pelaku UMKM memahami cara menggunakan sistem.
+                </p>
+              </div>
+            </div>
+          </div> -->
         </div>
       </div>
 
@@ -614,7 +675,7 @@
     <!-- End Team Section -->
 
     <!-- ======= Contact Section ======= -->
-    <section id="contact">
+    <!-- <section id="contact">
       <div class="container">
         <div class="row">
           <div class="col-md-12 text-center">
@@ -627,7 +688,6 @@
             <div class="info">
               <div>
                 <i class="bi bi-geo-alt"></i>
-                <!-- <p>A108 Adam Street<br>New York, NY 535022</p> -->
                 <p>Kecamatan Kalipare</p>
               </div>
 
@@ -671,7 +731,8 @@
 
         </div>
       </div>
-    </section><!-- End Contact Section -->
+    </section> -->
+    <!-- End Contact Section -->
 
   </main><!-- End #main -->
 
@@ -712,14 +773,6 @@
 
               <li class="list-inline-item">
                 <a href="#portfolio">Portofolio</a>
-              </li>
-
-              <!-- <li class="list-inline-item">
-                <a href="#team">Team</a>
-              </li> -->
-
-              <li class="list-inline-item">
-                <a href="#contact">Kontak</a>
               </li>
             </ul>
           </div>
