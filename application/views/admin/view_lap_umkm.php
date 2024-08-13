@@ -48,7 +48,7 @@
 </div>
 
 <script>
-new DataTable('#tabel-lap_umkm', 
+    new DataTable('#tabel-lap_umkm', 
     { 
         responsive : true,
         searching: true,

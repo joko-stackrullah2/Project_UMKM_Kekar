@@ -5,14 +5,14 @@
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-*">
             <?= form_error('menu', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
 
             <?= $this->session->flashdata('message'); ?>
 
             <!-- <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-umkm_tambah">Tambah Data UMKM</a> -->
 
-            <table class="table table-hover">
+            <table id="tabel-lap_umkm" class="table table-hover">
                 <thead>
                     <tr>
                         <th width="5%" scope="col">#</th>
@@ -801,6 +801,34 @@
 </div>
 
 <script>
+        new DataTable('#tabel-lap_umkm', 
+    { 
+        responsive : true,
+        searching: true,
+        lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ],
+        layout: 
+        { 
+            top1: 'searchPanes',
+            topStart: { 
+                buttons: ['csv', 'excel', 'pdf',] 
+            } 
+        },
+        columnDefs: [
+            {
+                searchPanes: {
+                    show: true
+                },
+                targets: [6]
+            },
+            {
+                searchPanes: {
+                    show: true
+                },
+                targets: [8]
+            }
+        ],
+        
+    });
     function showSecondModal(id_umkm) {
         $('#perizinanModal'+id_umkm).modal('hide');
         $('#perizinanModal'+id_umkm).on('hidden.bs.modal', function () {

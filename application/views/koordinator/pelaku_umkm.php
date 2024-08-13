@@ -46,13 +46,11 @@
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-*">
             <?= form_error('menu', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
 
             <?= $this->session->flashdata('message'); ?>
-
-            <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-pelaku_umkm_new">Tambah Pelaku UMKM</a>
-            <table class="table table-hover">
+            <table id="tabel-lap_pelaku_umkm" class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">No</th>
@@ -278,6 +276,45 @@
 </div>
 
 <script>
+        new DataTable('#tabel-lap_pelaku_umkm', 
+    { 
+        responsive : true,
+        searching: true,
+        lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ],
+        layout: 
+        { 
+            top1: 'searchPanes',
+            topStart: { 
+                buttons: [
+                {
+                    text: 'TAMBAH PELAKU UMKM',
+                    init: function (dt, node, config) {
+                        node[0].style.backgroundColor = "DodgerBlue";
+                        node[0].style.color = "white";
+                    },
+                    action: function (e, dt, node, config) {
+                        $('#modal-pelaku_umkm_new').modal('show');
+                    }
+                }
+            ,['csv', 'excel', 'pdf',] ] 
+            } 
+        },
+        columnDefs: [
+            {
+                searchPanes: {
+                    show: true
+                },
+                targets: [5]
+            },
+            {
+                searchPanes: {
+                    show: true
+                },
+                targets: [6]
+            }
+        ],
+        
+    });
     function newPelakuUMKM(){
         var nama = $('#nama').val();
         var email = $('#email').val();
