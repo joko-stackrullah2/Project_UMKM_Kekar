@@ -325,7 +325,7 @@
               </div> -->
 
               <div>
-              <a href="#"><img src="<?= base_url('assets/'); ?>/img/REWARD.png" alt="" style="width: 200px;height: 170px;margin-bottom:10px"></a>
+              <a href="#"><img src="<?= base_url('assets/'); ?>/img/REWARD.png" alt="" style="width: 300px;height: 270px;margin-bottom:10px"></a>
                 <h3 style="margin-top: 10px;">
                 Reward Bagi Pelaku UMKM
                 </h3>

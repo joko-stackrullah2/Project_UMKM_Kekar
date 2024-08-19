@@ -21,6 +21,7 @@
                         <th width="35%" scope="col">Desa</th>
                         <th width="35%" scope="col">Tanggal Pendirian</th>
                         <th width="35%" scope="col">Jenis Usaha</th>
+                        <th width="35%" scope="col">Dokumen Perizinan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,7 +37,7 @@
                         <td><?= $r['desa']; ?></td>
                         <td><?= $r['tanggal_pendirian']; ?></td>
                         <td><?= $r['jenis_usaha']; ?></td>
-                        <!-- <td><?= $r['status_verifikasi']; ?></td> -->
+                        <td><?= $r['dokumen_upload']; ?></td>
                     </tr>
 
                     <?php $i++; ?>

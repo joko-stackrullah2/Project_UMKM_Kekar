@@ -25,6 +25,57 @@ class Perizinan_umkm_m extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    public function getLapUMKM()
+    {
+        $query = "SELECT
+                a.*,
+                b.nama nama_pelaku_umkm,
+                c.jenis_usaha AS jenis_usaha,
+                c.syarat_perizinan,
+                d.desa,
+                GROUP_CONCAT(e.keterangan ORDER BY e.keterangan ASC SEPARATOR ', ') AS dokumen_upload,
+                CASE
+                    WHEN is_verifikasi = 1 THEN 'DITERIMA'
+                    WHEN is_verifikasi = 0 THEN 'DITOLAK'
+                    WHEN is_verifikasi IS NULL THEN 'BELUM MENGAJUKAN'
+                    ELSE is_verifikasi
+                END status_verifikasi
+            FROM
+                m_umkm a
+                LEFT JOIN USER b ON a.pelaku_umkm_id = b.id
+                LEFT JOIN m_jenis_usaha c ON a.jenis_usaha_id = c.jenis_usaha_id
+                LEFT JOIN m_desa d ON b.desa_id = d.desa_id
+                LEFT JOIN file_umkm e ON a.id_umkm = e.umkm_id
+            GROUP BY a.id_umkm";
+        return $this->db->query($query)->result_array();
+    }
+
+    public function getLapUMKMKoordinator($desa_id="")
+    {
+        $query = "SELECT
+                a.*,
+                b.nama nama_pelaku_umkm,
+                c.jenis_usaha AS jenis_usaha,
+                c.syarat_perizinan,
+                d.desa,
+                GROUP_CONCAT(e.keterangan ORDER BY e.keterangan ASC SEPARATOR ', ') AS dokumen_upload,
+                CASE
+                    WHEN is_verifikasi = 1 THEN 'DITERIMA'
+                    WHEN is_verifikasi = 0 THEN 'DITOLAK'
+                    WHEN is_verifikasi IS NULL THEN 'BELUM MENGAJUKAN'
+                    ELSE is_verifikasi
+                END status_verifikasi
+            FROM
+                m_umkm a
+                LEFT JOIN USER b ON a.pelaku_umkm_id = b.id
+                LEFT JOIN m_jenis_usaha c ON a.jenis_usaha_id = c.jenis_usaha_id
+                LEFT JOIN m_desa d ON b.desa_id = d.desa_id
+                LEFT JOIN file_umkm e ON a.id_umkm = e.umkm_id
+            WHERE b.desa_id = '$desa_id'
+            GROUP BY a.id_umkm";
+        return $this->db->query($query)->result_array();
+    }
+
     public function getUMKMForKoordinator($desa_id)
     {
         $query = "SELECT

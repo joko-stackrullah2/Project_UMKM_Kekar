@@ -24,7 +24,12 @@ class Laporan extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['list_hak_akses'] = $this->hak_akses_m->getAllListHakAkses();
         $data['list_desa'] = $this->desa_m->getAllListDesa();
-        $data['pelaku'] = $this->pelaku_umkm_m->getAllPelakuUMKM();
+        if($data["user"]["role_id"] == 3){
+            $data['pelaku'] = $this->pelaku_umkm_m->getAllPelakuUMKMKoordinator($data["user"]["desa_id"]);
+        }else{
+            $data['pelaku'] = $this->pelaku_umkm_m->getAllPelakuUMKM();
+        }
+        
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -37,8 +42,11 @@ class Laporan extends CI_Controller
     {
         $data['title'] = 'Laporan Per UMKM';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $data['data_umkm'] = $this->perizinan_umkm_m->getUMKM();
+        if($data["user"]["role_id"] == 3){
+            $data['data_umkm'] = $this->perizinan_umkm_m->getLapUMKMKoordinator($data["user"]["desa_id"]);
+        }else{
+            $data['data_umkm'] = $this->perizinan_umkm_m->getLapUMKM();
+        }
         $data['list_all_pelaku_umkm'] = $this->perizinan_umkm_m->getAllPelakuUMKM();
         $data['list_all_jenis_usaha'] = $this->perizinan_umkm_m->getAllJenisUsaha();
 
